@@ -8,6 +8,10 @@ const StyledLink = styled.a`
   position: absolute;
   top: 0;
   right: 0;
+
+  &:hover svg {
+    fill: ${Colors.Header};
+  }
 `;
 
 const CornerBanner = () => {
