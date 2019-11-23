@@ -4,20 +4,19 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    
-    - name: yarn install
-      run: yarn
-      
-    - name: yarn lint
-      run: yarn lint
-    
-    - name: yarn test
-      run: yarn test
-    
-    - name: yarn build
-      run: yarn build
+      - uses: actions/checkout@v1
+
+      - name: yarn install
+        run: yarn
+
+      - name: yarn lint
+        run: yarn lint
+
+      - name: yarn test
+        run: yarn test:ci
+
+      - name: yarn build
+        run: yarn build
