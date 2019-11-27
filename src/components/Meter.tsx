@@ -21,7 +21,7 @@ const Meter = () => {
 
   const updateGauge = (value: number) => {
     const capValue = Math.min(100, Math.max(0, value * 100));
-    setGaugeValue(Math.round(capValue) / 100);
+    setGaugeValue(Math.round(capValue));
   };
 
   const onContentClick = (event: any) => {
@@ -37,7 +37,7 @@ const Meter = () => {
         nrOfLevels={3}
         textColor={getMeterColor(gaugeValue)}
         colors={meterColors}
-        percent={gaugeValue}
+        percent={gaugeValue / 100}
       />
     </div>
   );
