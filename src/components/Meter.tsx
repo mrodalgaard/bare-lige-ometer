@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import GaugeChart from "react-gauge-chart";
 import { useQueryParam, NumberParam } from "use-query-params";
 
-import { meterColors, getMeterColor } from "../util/constants";
+import { meterColors } from "../util/constants";
+import { capValue, getMeterColor } from "../util/helpers";
 
 const Meter = () => {
   const [gaugeValue, setGaugeValue] = useState(0);
@@ -10,18 +11,17 @@ const Meter = () => {
 
   useEffect(() => {
     if (paramValue !== undefined) {
-      setGaugeValue(paramValue);
+      setGaugeValue(capValue(paramValue));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setGaugeValue]);
 
   useEffect(() => {
     setParamValue(gaugeValue);
-  }, [setParamValue, gaugeValue]);
+  }, [gaugeValue, setParamValue]);
 
   const updateGauge = (value: number) => {
-    const capValue = Math.min(100, Math.max(0, value * 100));
-    setGaugeValue(Math.round(capValue));
+    setGaugeValue(Math.round(capValue(value * 100)));
   };
 
   const onContentClick = (event: any) => {
