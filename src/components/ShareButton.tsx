@@ -15,7 +15,7 @@ const StyledLink = styled.a`
   cursor: pointer;
 
   &:hover svg {
-    fill: ${Colors.Error};
+    fill: ${Colors.Success};
   }
 `;
 

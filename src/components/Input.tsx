@@ -7,6 +7,7 @@ import { useQueryParam, StringParam } from "use-query-params";
 const StyledInput = styled.input`
   display: block;
   margin: 0 auto;
+  width: 100%;
 
   background: transparent;
   border: 0;
