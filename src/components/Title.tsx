@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { Colors } from "../util/theme";
+import { title } from "../util/constants";
 
 const Header = styled.h1`
   font-size: 80px;
@@ -10,7 +11,7 @@ const Header = styled.h1`
 `;
 
 const Title = () => {
-  return <Header>BARE-LIGE-O'METER</Header>;
+  return <Header>{title}</Header>;
 };
 
 export default Title;
