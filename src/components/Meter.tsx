@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, MouseEvent } from "react";
 import { Gauge } from "gaugeJS";
 import styled from "styled-components";
 import { useQueryParam, NumberParam } from "use-query-params";
@@ -19,8 +19,8 @@ const Meter = () => {
   const [gaugeValue, setGaugeValue] = useState(0);
   const [paramValue, setParamValue] = useQueryParam("value", NumberParam);
 
-  const canvas = useRef<any>();
-  const gauge = useRef<any>();
+  const canvas = useRef<HTMLCanvasElement>(null);
+  const gauge = useRef<any>(null);
 
   useEffect(() => {
     if (paramValue !== undefined) {
@@ -41,10 +41,8 @@ const Meter = () => {
     setGaugeValue(Math.round(capValue(value * 100)));
   };
 
-  const onContentClick = (event: any) => {
-    const xPosition = event.screenX;
-    const width = (window as any).screen.width;
-    updateGauge(xPosition / width);
+  const onContentClick = (event: MouseEvent) => {
+    updateGauge(event.screenX / window.screen.width);
   };
 
   useEffect(() => {
