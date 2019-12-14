@@ -1,19 +1,17 @@
 {
   "files": {
-    "main.css": "/bare-lige-ometer/static/css/main.9c5adfd9.chunk.css",
-    "main.js": "/bare-lige-ometer/static/js/main.55d82a33.chunk.js",
+    "main.css": "/bare-lige-ometer/static/css/main.a59111fd.chunk.css",
+    "main.js": "/bare-lige-ometer/static/js/main.9bda1aca.chunk.js",
     "runtime-main.js": "/bare-lige-ometer/static/js/runtime-main.73b6edc5.js",
-    "static/css/2.859f00eb.chunk.css": "/bare-lige-ometer/static/css/2.859f00eb.chunk.css",
-    "static/js/2.2e8d31e3.chunk.js": "/bare-lige-ometer/static/js/2.2e8d31e3.chunk.js",
+    "static/js/2.e42ba2cb.chunk.js": "/bare-lige-ometer/static/js/2.e42ba2cb.chunk.js",
     "index.html": "/bare-lige-ometer/index.html",
-    "precache-manifest.b16c7a04a4a44cb066fb419e6ad07511.js": "/bare-lige-ometer/precache-manifest.b16c7a04a4a44cb066fb419e6ad07511.js",
+    "precache-manifest.849c3f52fc8ea88f51b20ba05d9387dd.js": "/bare-lige-ometer/precache-manifest.849c3f52fc8ea88f51b20ba05d9387dd.js",
     "service-worker.js": "/bare-lige-ometer/service-worker.js"
   },
   "entrypoints": [
     "static/js/runtime-main.73b6edc5.js",
-    "static/css/2.859f00eb.chunk.css",
-    "static/js/2.2e8d31e3.chunk.js",
-    "static/css/main.9c5adfd9.chunk.css",
-    "static/js/main.55d82a33.chunk.js"
+    "static/js/2.e42ba2cb.chunk.js",
+    "static/css/main.a59111fd.chunk.css",
+    "static/js/main.9bda1aca.chunk.js"
   ]
 }

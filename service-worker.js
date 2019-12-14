@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/bare-lige-ometer/precache-manifest.b16c7a04a4a44cb066fb419e6ad07511.js"
+  "/bare-lige-ometer/precache-manifest.849c3f52fc8ea88f51b20ba05d9387dd.js"
 );
 
 self.addEventListener('message', (event) => {
