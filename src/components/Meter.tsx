@@ -7,9 +7,10 @@ import { capValue, getMeterColorPercents } from "../util/helpers";
 import { Colors } from "../util/theme";
 
 const Container = styled.div`
-  text-align: center;
+  display: flex;
 
   canvas {
+    flex: 1;
     max-height: calc(100vh - 260px);
     width: 100%;
   }

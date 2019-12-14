@@ -12,7 +12,7 @@ const StyledInput = styled.input`
   background: transparent;
   border: 0;
   outline: 0;
-  font-size: 40px;
+  font-size: 30px;
   color: ${Colors.Header};
   text-align: center;
 `;

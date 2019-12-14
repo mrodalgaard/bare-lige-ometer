@@ -8,6 +8,7 @@ const Header = styled.h1`
   font-size: 80px;
   color: ${Colors.Header};
   text-align: center;
+  margin-bottom: 10px;
 `;
 
 const Title = () => {
