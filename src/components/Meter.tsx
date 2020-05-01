@@ -27,7 +27,7 @@ const Meter = () => {
   const gauge = useRef<any>(null);
 
   useEffect(() => {
-    if (paramValue !== undefined) {
+    if (paramValue !== undefined && paramValue !== null) {
       setGaugeValue(capValue(paramValue));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

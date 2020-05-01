@@ -28,7 +28,7 @@ const Input = () => {
 
   useEffect(() => {
     // Set input title value to query parameter title
-    if (paramTitle !== undefined) {
+    if (paramTitle !== undefined && paramTitle !== null) {
       setTitle(paramTitle);
     }
     // Focus input if title is not set
