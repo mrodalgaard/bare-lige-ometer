@@ -9,3 +9,8 @@ export interface MeterColorPercent {
   min: number;
   max: number;
 }
+
+export enum QueryParameter {
+  title = "title",
+  value = "value",
+}

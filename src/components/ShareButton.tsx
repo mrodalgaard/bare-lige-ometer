@@ -26,27 +26,26 @@ const CopiedLabel = styled.p`
 const ShareButton = () => {
   const [copied, setCopied] = useState(false);
 
+  // Show temporary copied text when flag is toggled
   useEffect(() => {
     if (copied) {
       setTimeout(() => setCopied(false), 3000);
     }
   }, [copied, setCopied]);
 
+  // Copy to clipboard
   const addToClipboard = (shareData: ShareData): boolean => {
-    if (
-      window.navigator &&
-      window.navigator.clipboard &&
-      window.navigator.clipboard.writeText
-    ) {
+    if (window.navigator?.clipboard?.writeText) {
       window.navigator.clipboard.writeText(shareData.url);
       return true;
     }
     return false;
   };
 
+  // Share using Web Share API
   const webShare = (shareData: ShareData): boolean => {
     const navigator = window.navigator as any;
-    if (navigator && navigator.share) {
+    if (navigator?.share) {
       try {
         navigator.share(shareData);
         return true;
