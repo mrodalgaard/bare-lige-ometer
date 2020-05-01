@@ -2,6 +2,7 @@ import { Gauge } from "gaugeJS";
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { NumberParam, useQueryParam } from "use-query-params";
+import { QueryParameter } from "../util/constants";
 import { capValue, getMeterColorPercents } from "../util/helpers";
 import { Colors } from "../util/theme";
 
@@ -17,7 +18,10 @@ const Container = styled.div`
 
 const Meter = () => {
   const [gaugeValue, setGaugeValue] = useState(0);
-  const [paramValue, setParamValue] = useQueryParam("value", NumberParam);
+  const [paramValue, setParamValue] = useQueryParam(
+    QueryParameter.value,
+    NumberParam
+  );
 
   const canvas = useRef<HTMLCanvasElement>(null);
   const gauge = useRef<any>(null);
