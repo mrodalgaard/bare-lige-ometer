@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef, MouseEvent } from "react";
 import { Gauge } from "gaugeJS";
+import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { useQueryParam, NumberParam } from "use-query-params";
-
+import { NumberParam, useQueryParam } from "use-query-params";
 import { capValue, getMeterColorPercents } from "../util/helpers";
 import { Colors } from "../util/theme";
 
@@ -38,13 +37,11 @@ const Meter = () => {
     }
   }, [gaugeValue, setParamValue]);
 
-  const updateGauge = (value: number) => {
+  const updateGauge = (value: number) =>
     setGaugeValue(Math.round(capValue(value * 100)));
-  };
 
-  const onContentClick = (event: MouseEvent) => {
-    updateGauge(event.screenX / window.screen.width);
-  };
+  const onContentClick = (event: MouseEvent) =>
+    updateGauge(event.clientX / window.screen.width);
 
   useEffect(() => {
     const options = {
@@ -54,12 +51,12 @@ const Meter = () => {
       pointer: {
         length: 0.55,
         strokeWidth: 0.1,
-        color: Colors.Header
+        color: Colors.Header,
       },
       limitMax: false,
       limitMin: true,
       highDpiSupport: true,
-      staticZones: getMeterColorPercents()
+      staticZones: getMeterColorPercents(),
     };
 
     gauge.current = new Gauge(canvas.current).setOptions(options);

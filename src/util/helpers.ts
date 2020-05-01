@@ -10,7 +10,7 @@ export const getMeterColorPercents = (): MeterColorPercent[] => {
   return meterColors.map((color, index) => ({
     strokeStyle: color,
     min: Math.floor(index * (100 / meterColors.length)),
-    max: Math.ceil((index + 1) * (100 / meterColors.length))
+    max: Math.ceil((index + 1) * (100 / meterColors.length)),
   }));
 };
 

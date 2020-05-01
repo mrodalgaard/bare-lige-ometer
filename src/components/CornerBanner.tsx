@@ -1,8 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
-
-import { Colors } from "../util/theme";
 import { githubLink } from "../util/constants";
+import { Colors } from "../util/theme";
 
 const StyledLink = styled.a`
   position: absolute;

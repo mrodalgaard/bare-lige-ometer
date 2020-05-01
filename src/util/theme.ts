@@ -4,5 +4,5 @@ export enum Colors {
 
   Success = "#00b894",
   Warning = "#fdcb6e",
-  Error = "#d63031"
+  Error = "#d63031",
 }
