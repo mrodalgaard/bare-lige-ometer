@@ -2,9 +2,9 @@ import { Gauge } from "gaugeJS";
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { NumberParam, useQueryParam } from "use-query-params";
-import { QueryParameter } from "../util/constants";
 import { capValue, getMeterColorPercents } from "../util/helpers";
 import { Colors } from "../util/theme";
+import { QueryParameter } from "../util/types";
 
 const Container = styled.div`
   display: flex;
@@ -23,9 +23,10 @@ const Meter = () => {
     NumberParam
   );
 
-  const canvas = useRef<HTMLCanvasElement>(null);
-  const gauge = useRef<any>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const gaugeRef = useRef<any>(null);
 
+  // Set gauge value to query parameter after render
   useEffect(() => {
     if (paramValue !== undefined && paramValue !== null) {
       setGaugeValue(capValue(paramValue));
@@ -33,12 +34,10 @@ const Meter = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setGaugeValue]);
 
+  // Update query parameter and gauge when value changes
   useEffect(() => {
-    setParamValue(gaugeValue);
-
-    if (gauge && gauge.current) {
-      gauge.current.set(gaugeValue);
-    }
+    setParamValue(gaugeValue || undefined);
+    gaugeRef?.current?.set(gaugeValue);
   }, [gaugeValue, setParamValue]);
 
   const updateGauge = (value: number) =>
@@ -63,15 +62,15 @@ const Meter = () => {
       staticZones: getMeterColorPercents(),
     };
 
-    gauge.current = new Gauge(canvas.current).setOptions(options);
-    gauge.current.maxValue = 100;
-    gauge.current.setMinValue(0);
-    gauge.current.set(0);
+    gaugeRef.current = new Gauge(canvasRef.current).setOptions(options);
+    gaugeRef.current.maxValue = 100;
+    gaugeRef.current.setMinValue(0);
+    gaugeRef.current.set(0);
   }, []);
 
   return (
     <Container onClick={onContentClick}>
-      <canvas ref={canvas}></canvas>
+      <canvas ref={canvasRef}></canvas>
     </Container>
   );
 };

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { StringParam, useQueryParam } from "use-query-params";
-import { QueryParameter } from "../util/constants";
 import { Colors } from "../util/theme";
+import { QueryParameter } from "../util/types";
 
 const StyledInput = styled.input`
   display: block;
@@ -32,15 +32,15 @@ const Input = () => {
       setTitle(paramTitle);
     }
     // Focus input if title is not set
-    else if (inputRef && inputRef.current) {
-      inputRef.current.focus();
+    else {
+      inputRef?.current?.focus();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setTitle]);
 
   // Set query parameter title to input title value
   useEffect(() => {
-    setParamTitle(title);
+    setParamTitle(title || undefined);
   }, [title, setParamTitle]);
 
   return (
