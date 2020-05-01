@@ -1,10 +1,9 @@
 import * as React from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-
-import { Colors } from "../util/theme";
 import { title } from "../util/constants";
+import { Colors } from "../util/theme";
 import { ShareData } from "../util/types";
-import { useState, useEffect } from "react";
 
 const StyledLink = styled.a`
   position: absolute;
@@ -59,7 +58,7 @@ const ShareButton = () => {
   const exportButtonClick = () => {
     const shareData = {
       title,
-      url: window.location.href
+      url: window.location.href,
     };
 
     if (webShare(shareData) || addToClipboard(shareData)) {

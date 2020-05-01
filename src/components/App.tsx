@@ -1,10 +1,9 @@
 import React from "react";
-
-import Meter from "./Meter";
-import Title from "./Title";
 import CornerBanner from "./CornerBanner";
 import Input from "./Input";
+import Meter from "./Meter";
 import ShareButton from "./ShareButton";
+import Title from "./Title";
 
 const App = () => {
   return (

@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
+import { StringParam, useQueryParam } from "use-query-params";
 import { Colors } from "../util/theme";
-import { useQueryParam, StringParam } from "use-query-params";
 
 const StyledInput = styled.input`
   display: block;
@@ -28,15 +27,13 @@ const Input = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setTitle]);
 
-  useEffect(() => {
-    setParamTitle(title);
-  }, [title, setParamTitle]);
+  useEffect(() => setParamTitle(title), [title, setParamTitle]);
 
   return (
     <StyledInput
       type="text"
       value={title}
-      onChange={e => setTitle(e.target.value)}
+      onChange={(e) => setTitle(e.target.value)}
     />
   );
 };
