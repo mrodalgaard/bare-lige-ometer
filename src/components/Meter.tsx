@@ -44,7 +44,7 @@ const Meter = () => {
     setGaugeValue(Math.round(capValue(value * 100)));
 
   const onContentClick = (event: MouseEvent) =>
-    updateGauge(event.clientX / window.screen.width);
+    updateGauge(event.clientX / window.innerWidth);
 
   useEffect(() => {
     const options = {
