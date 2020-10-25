@@ -1,6 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import { debounce } from "lodash-es";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { StringParam, useQueryParam } from "use-query-params";
+import analytics, { LogEvent } from "../util/analytics";
 import { Colors } from "../util/theme";
 import { QueryParameter } from "../util/types";
 
@@ -26,6 +28,15 @@ const Input = () => {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Set query parameter title and log event on debounced title change
+  const debouncedChange = useCallback(
+    debounce((title: string) => {
+      analytics.logEvent(LogEvent.TextChange);
+      setParamTitle(title || undefined);
+    }, 500),
+    []
+  );
+
   useEffect(() => {
     // Set input title value to query parameter title
     if (paramTitle !== undefined && paramTitle !== null) {
@@ -36,20 +47,20 @@ const Input = () => {
       inputRef?.current?.focus();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setTitle]);
+  }, []);
 
-  // Set query parameter title to input title value
+  // Use debounce to update title dependencies
   useEffect(() => {
-    setParamTitle(title || undefined);
-  }, [title, setParamTitle]);
+    debouncedChange(title);
+    return debouncedChange.cancel;
+  }, [title, debouncedChange]);
+
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.target.value);
+  };
 
   return (
-    <StyledInput
-      ref={inputRef}
-      type="text"
-      value={title}
-      onChange={(e) => setTitle(e.target.value)}
-    />
+    <StyledInput ref={inputRef} type="text" value={title} onChange={onChange} />
   );
 };
 
