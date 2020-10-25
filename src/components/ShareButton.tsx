@@ -66,7 +66,7 @@ const ShareButton = () => {
   };
 
   return (
-    <StyledLink onClick={exportButtonClick}>
+    <StyledLink onClick={exportButtonClick} aria-label="Share">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="56"

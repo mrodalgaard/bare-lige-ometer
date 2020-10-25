@@ -15,7 +15,7 @@ const StyledLink = styled.a`
 
 const CornerBanner = () => {
   return (
-    <StyledLink href={githubLink}>
+    <StyledLink href={githubLink} aria-label="Github">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="80"
