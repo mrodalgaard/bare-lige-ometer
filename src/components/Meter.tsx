@@ -2,6 +2,7 @@ import { Gauge } from "gaugeJS";
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { NumberParam, useQueryParam } from "use-query-params";
+import analytics, { LogEvent } from "../util/analytics";
 import { capValue, getMeterColorPercents } from "../util/helpers";
 import { Colors } from "../util/theme";
 import { QueryParameter } from "../util/types";
@@ -32,7 +33,7 @@ const Meter = () => {
       setGaugeValue(capValue(paramValue));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setGaugeValue]);
+  }, []);
 
   // Update query parameter and gauge when value changes
   useEffect(() => {
@@ -40,11 +41,15 @@ const Meter = () => {
     gaugeRef?.current?.set(gaugeValue);
   }, [gaugeValue, setParamValue]);
 
-  const updateGauge = (value: number) =>
-    setGaugeValue(Math.round(capValue(value * 100)));
+  const updateGauge = (value: number) => {
+    const percent = Math.round(capValue(value * 100));
+    setGaugeValue(percent);
+    analytics.logEvent(LogEvent.ValueChange, { value: percent });
+  };
 
-  const onContentClick = (event: MouseEvent) =>
+  const onContentClick = (event: MouseEvent) => {
     updateGauge(event.clientX / window.innerWidth);
+  };
 
   useEffect(() => {
     const options = {
