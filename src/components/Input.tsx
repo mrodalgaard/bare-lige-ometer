@@ -19,6 +19,10 @@ const StyledInput = styled.input`
   text-align: center;
 `;
 
+const StyledLabel = styled.label`
+  display: none;
+`;
+
 const Input = () => {
   const [title, setTitle] = useState("");
   const [paramTitle, setParamTitle] = useQueryParam(
@@ -60,7 +64,16 @@ const Input = () => {
   };
 
   return (
-    <StyledInput ref={inputRef} type="text" value={title} onChange={onChange} />
+    <>
+      <StyledLabel htmlFor="text">CHANGE TEXT</StyledLabel>
+      <StyledInput
+        id="text"
+        ref={inputRef}
+        type="text"
+        value={title}
+        onChange={onChange}
+      />
+    </>
   );
 };
 
