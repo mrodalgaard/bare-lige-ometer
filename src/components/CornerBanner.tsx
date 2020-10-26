@@ -1,5 +1,6 @@
 import * as React from "react";
 import styled from "styled-components";
+import analytics, { LogEvent } from "../util/analytics";
 import { githubLink } from "../util/constants";
 import { Colors } from "../util/theme";
 
@@ -14,8 +15,12 @@ const StyledLink = styled.a`
 `;
 
 const CornerBanner = () => {
+  const onClick = () => {
+    analytics.logEvent(LogEvent.GithubLink);
+  };
+
   return (
-    <StyledLink href={githubLink}>
+    <StyledLink href={githubLink} aria-label="Github" onClick={onClick}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="80"

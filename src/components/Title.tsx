@@ -11,7 +11,11 @@ const Header = styled.h1`
 `;
 
 const Title = () => {
-  return <Header>{title}</Header>;
+  return (
+    <header>
+      <Header>{title}</Header>
+    </header>
+  );
 };
 
 export default Title;
