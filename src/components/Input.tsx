@@ -1,4 +1,4 @@
-import { debounce } from "lodash-es";
+import debounce from "lodash.debounce";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { StringParam, useQueryParam } from "use-query-params";
