@@ -1,4 +1,5 @@
 import "firebase/analytics";
+import { Metric } from "web-vitals";
 import firebase from "./firebase";
 
 export enum LogEvent {
@@ -7,6 +8,8 @@ export enum LogEvent {
   TextChange = "text_change",
 
   GithubLink = "github_link",
+
+  WebVitals = "web_vitals",
 }
 
 class Analytics {
@@ -22,6 +25,14 @@ class Analytics {
 
   public logEvent = (event: LogEvent, parameters?: any) => {
     this.analytics?.logEvent(event, parameters);
+  };
+
+  public sendToAnalytics = ({ id, name, value }: Metric) => {
+    this.analytics?.logEvent(LogEvent.WebVitals, {
+      id,
+      name,
+      value: Math.round(name === "CLS" ? value * 1000 : value),
+    });
   };
 }
 
