@@ -2,10 +2,10 @@ import { Gauge } from "gaugeJS";
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { NumberParam, useQueryParam } from "use-query-params";
-import analytics, { LogEvent } from "../util/analytics";
-import { capValue, getMeterColorPercents } from "../util/helpers";
-import { Colors } from "../util/theme";
-import { QueryParameter } from "../util/types";
+import analytics, { LogEvent } from "util/analytics";
+import { capValue, getMeterColorPercents } from "util/helpers";
+import { Colors } from "util/theme";
+import { QueryParameter } from "util/types";
 
 const Container = styled.div`
   display: flex;

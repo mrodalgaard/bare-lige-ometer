@@ -1,8 +1,8 @@
+import App from "components/App";
 import Meter from "components/Meter";
 import Title from "components/Title";
 import React from "react";
 import TestRenderer from "react-test-renderer";
-import App from "../App";
 
 it("renders without crashing", () => {
   // @testing-library/react does not work with the canvas used in Meter

@@ -2,9 +2,9 @@ import debounce from "lodash.debounce";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import { StringParam, useQueryParam } from "use-query-params";
-import analytics, { LogEvent } from "../util/analytics";
-import { Colors } from "../util/theme";
-import { QueryParameter } from "../util/types";
+import analytics, { LogEvent } from "util/analytics";
+import { Colors } from "util/theme";
+import { QueryParameter } from "util/types";
 
 const StyledInput = styled.input`
   display: block;

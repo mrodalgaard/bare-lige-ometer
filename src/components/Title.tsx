@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { title } from "../util/constants";
-import { Colors } from "../util/theme";
+import { title } from "util/constants";
+import { Colors } from "util/theme";
 
 const Header = styled.h1`
   font-size: 80px;

@@ -1,10 +1,10 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import analytics, { LogEvent } from "../util/analytics";
-import { title } from "../util/constants";
-import { Colors } from "../util/theme";
-import { ShareData } from "../util/types";
+import analytics, { LogEvent } from "util/analytics";
+import { title } from "util/constants";
+import { Colors } from "util/theme";
+import { ShareData } from "util/types";
 
 const StyledLink = styled.a`
   position: absolute;
