@@ -1,5 +1,5 @@
 import debounce from "lodash.debounce";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import { StringParam, useQueryParam } from "use-query-params";
 import analytics, { LogEvent } from "../util/analytics";
@@ -33,12 +33,13 @@ const Input = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Set query parameter title and log event on debounced title change
-  const debouncedChange = useCallback(
-    debounce((title: string) => {
-      analytics.logEvent(LogEvent.TextChange);
-      setParamTitle(title || undefined);
-    }, 500),
-    []
+  const debouncedChange = useMemo(
+    () =>
+      debounce((title: string) => {
+        analytics.logEvent(LogEvent.TextChange);
+        setParamTitle(title || undefined);
+      }, 500),
+    [setParamTitle]
   );
 
   useEffect(() => {
