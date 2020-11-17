@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import analytics, { LogEvent } from "util/analytics";
 import { title } from "util/constants";
-import { Colors } from "util/theme";
 import { ShareData } from "util/types";
 
 const StyledLink = styled.a`
@@ -11,11 +10,11 @@ const StyledLink = styled.a`
   top: 6px;
   left: 12px;
 
-  color: ${Colors.Header};
+  color: ${({ theme }) => theme.header};
   cursor: pointer;
 
   &:hover svg {
-    fill: ${Colors.Success};
+    fill: ${({ theme }) => theme.success};
   }
 `;
 

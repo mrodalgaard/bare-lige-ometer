@@ -1,10 +1,9 @@
 import { Gauge } from "gaugeJS";
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import { NumberParam, useQueryParam } from "use-query-params";
 import analytics, { LogEvent } from "util/analytics";
 import { capValue, getMeterColorPercents } from "util/helpers";
-import { Colors } from "util/theme";
 import { QueryParameter } from "util/types";
 
 const Container = styled.div`
@@ -18,6 +17,7 @@ const Container = styled.div`
 `;
 
 const Meter = () => {
+  const { header } = useTheme();
   const [gaugeValue, setGaugeValue] = useState(0);
   const [paramValue, setParamValue] = useQueryParam(
     QueryParameter.value,
@@ -25,7 +25,7 @@ const Meter = () => {
   );
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const gaugeRef = useRef<any>(null);
+  const gaugeRef = useRef<typeof Gauge>(null);
 
   // Set gauge value to query parameter after render
   useEffect(() => {
@@ -59,7 +59,7 @@ const Meter = () => {
       pointer: {
         length: 0.55,
         strokeWidth: 0.1,
-        color: Colors.Header,
+        color: header,
       },
       limitMax: false,
       limitMin: true,
@@ -71,7 +71,7 @@ const Meter = () => {
     gaugeRef.current.maxValue = 100;
     gaugeRef.current.setMinValue(0);
     gaugeRef.current.set(0);
-  }, []);
+  }, [header]);
 
   return (
     <Container onClick={onContentClick}>
