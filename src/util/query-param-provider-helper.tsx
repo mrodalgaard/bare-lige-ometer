@@ -30,7 +30,7 @@ const makeMockHistory = (location: any = {}) => {
 };
 
 // Setup a query parameter provider with mocked location and history
-export const setupQueryParamProvider = (
+export const renderUsingQueryParamProvider = (
   children: any,
   query: EncodedQuery = {}
 ) => {

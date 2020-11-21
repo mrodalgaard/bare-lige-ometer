@@ -1,7 +1,7 @@
 import userEvent from "@testing-library/user-event";
 import Input from "components/Input";
 import React from "react";
-import { setupQueryParamProvider } from "util/query-param-provider-helper";
+import { renderUsingQueryParamProvider } from "util/query-param-provider-helper";
 import { act, screen } from "util/test-utils";
 
 describe("Input", () => {
@@ -12,7 +12,7 @@ describe("Input", () => {
   });
 
   it("takes input", () => {
-    setupQueryParamProvider(<Input />);
+    renderUsingQueryParamProvider(<Input />);
 
     const input = screen.getByLabelText(inputLabel);
     expect(input).toHaveValue("");
@@ -22,13 +22,13 @@ describe("Input", () => {
   });
 
   it("sets the input from query parameter", () => {
-    setupQueryParamProvider(<Input />, { title: "BARELIGE" });
+    renderUsingQueryParamProvider(<Input />, { title: "BARELIGE" });
 
     expect(screen.getByLabelText(inputLabel)).toHaveValue("BARELIGE");
   });
 
   it("updates the query parameter debounced", () => {
-    const { location } = setupQueryParamProvider(<Input />);
+    const { location } = renderUsingQueryParamProvider(<Input />);
 
     const input = screen.getByLabelText(inputLabel);
 
