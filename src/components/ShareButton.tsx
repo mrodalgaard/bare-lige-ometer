@@ -1,21 +1,20 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import analytics, { LogEvent } from "../util/analytics";
-import { title } from "../util/constants";
-import { Colors } from "../util/theme";
-import { ShareData } from "../util/types";
+import analytics, { LogEvent } from "util/analytics";
+import { title } from "util/constants";
+import { ShareData } from "util/types";
 
 const StyledLink = styled.a`
   position: absolute;
   top: 6px;
   left: 12px;
 
-  color: ${Colors.Header};
+  color: ${({ theme }) => theme.header};
   cursor: pointer;
 
   &:hover svg {
-    fill: ${Colors.Success};
+    fill: ${({ theme }) => theme.success};
   }
 `;
 

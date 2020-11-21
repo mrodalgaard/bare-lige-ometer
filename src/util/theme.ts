@@ -1,8 +1,10 @@
-export enum Colors {
-  Background = "#ecf0f1",
-  Header = "#464a4e",
+const theme = {
+  background: "#ecf0f1",
+  header: "#464a4e",
 
-  Success = "#00b894",
-  Warning = "#fdcb6e",
-  Error = "#d63031",
-}
+  success: "#00b894",
+  warning: "#fdcb6e",
+  error: "#d63031",
+};
+
+export default theme;

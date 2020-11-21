@@ -1,11 +1,10 @@
 import { Gauge } from "gaugeJS";
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
-import styled from "styled-components";
+import styled, { useTheme } from "styled-components";
 import { NumberParam, useQueryParam } from "use-query-params";
-import analytics, { LogEvent } from "../util/analytics";
-import { capValue, getMeterColorPercents } from "../util/helpers";
-import { Colors } from "../util/theme";
-import { QueryParameter } from "../util/types";
+import analytics, { LogEvent } from "util/analytics";
+import { capValue, getMeterColorPercents } from "util/helpers";
+import { QueryParameter } from "util/types";
 
 const Container = styled.div`
   display: flex;
@@ -17,7 +16,20 @@ const Container = styled.div`
   }
 `;
 
-const Meter = () => {
+const Number = styled.p`
+  font-size: 190px;
+  color: ${({ theme }) => theme.header};
+  width: 100%;
+  margin: 10px;
+  text-align: center;
+`;
+
+interface IProps {
+  showAsNumber?: boolean;
+}
+
+const Meter = ({ showAsNumber = false }: IProps) => {
+  const { header } = useTheme();
   const [gaugeValue, setGaugeValue] = useState(0);
   const [paramValue, setParamValue] = useQueryParam(
     QueryParameter.value,
@@ -25,7 +37,7 @@ const Meter = () => {
   );
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const gaugeRef = useRef<any>(null);
+  const gaugeRef = useRef<typeof Gauge>(null);
 
   // Set gauge value to query parameter after render
   useEffect(() => {
@@ -52,6 +64,10 @@ const Meter = () => {
   };
 
   useEffect(() => {
+    if (showAsNumber) {
+      return;
+    }
+
     const options = {
       angle: 0,
       lineWidth: 0.4,
@@ -59,7 +75,7 @@ const Meter = () => {
       pointer: {
         length: 0.55,
         strokeWidth: 0.1,
-        color: Colors.Header,
+        color: header,
       },
       limitMax: false,
       limitMin: true,
@@ -71,11 +87,15 @@ const Meter = () => {
     gaugeRef.current.maxValue = 100;
     gaugeRef.current.setMinValue(0);
     gaugeRef.current.set(0);
-  }, []);
+  }, [header, showAsNumber]);
 
   return (
     <Container onClick={onContentClick}>
-      <canvas ref={canvasRef}></canvas>
+      {showAsNumber ? (
+        <Number>{gaugeValue}%</Number>
+      ) : (
+        <canvas ref={canvasRef}></canvas>
+      )}
     </Container>
   );
 };
