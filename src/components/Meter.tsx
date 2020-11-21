@@ -16,7 +16,19 @@ const Container = styled.div`
   }
 `;
 
-const Meter = () => {
+const Number = styled.p`
+  font-size: 190px;
+  color: ${({ theme }) => theme.header};
+  width: 100%;
+  margin: 10px;
+  text-align: center;
+`;
+
+interface IProps {
+  showAsNumber?: boolean;
+}
+
+const Meter = ({ showAsNumber = false }: IProps) => {
   const { header } = useTheme();
   const [gaugeValue, setGaugeValue] = useState(0);
   const [paramValue, setParamValue] = useQueryParam(
@@ -52,6 +64,10 @@ const Meter = () => {
   };
 
   useEffect(() => {
+    if (showAsNumber) {
+      return;
+    }
+
     const options = {
       angle: 0,
       lineWidth: 0.4,
@@ -71,11 +87,15 @@ const Meter = () => {
     gaugeRef.current.maxValue = 100;
     gaugeRef.current.setMinValue(0);
     gaugeRef.current.set(0);
-  }, [header]);
+  }, [header, showAsNumber]);
 
   return (
     <Container onClick={onContentClick}>
-      <canvas ref={canvasRef}></canvas>
+      {showAsNumber ? (
+        <Number>{gaugeValue}%</Number>
+      ) : (
+        <canvas ref={canvasRef}></canvas>
+      )}
     </Container>
   );
 };
