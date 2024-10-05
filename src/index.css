@@ -25,6 +25,7 @@ body,
 input {
   margin: 0;
   font-family: "Titan One", sans-serif;
+  font-display: swap;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
