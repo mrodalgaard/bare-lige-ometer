@@ -1,21 +1,12 @@
+import { ClickEffect } from 'components/ClickEffect';
 import { Gauge } from 'gaugeJS';
-import { MouseEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { NumberParam, useQueryParam } from 'use-query-params';
 import { AnalyticsEvent, logEvent } from 'util/analytics';
+import { ClickPosition } from 'util/ClickPosition';
 import { QueryParameter } from 'util/custom-types';
 import { capValue, getMeterColorPercents } from 'util/helpers';
-
-const Container = styled.div`
-  display: flex;
-  cursor: pointer;
-
-  canvas {
-    flex: 1;
-    max-height: calc(100vh - 260px);
-    width: 100%;
-  }
-`;
 
 const Number = styled.p`
   font-size: 190px;
@@ -25,11 +16,13 @@ const Number = styled.p`
   text-align: center;
 `;
 
-interface IProps {
-  showAsNumber?: boolean;
-}
+const StyledCanvas = styled.canvas`
+  flex: 1;
+  max-height: calc(100vh - 260px);
+  width: 100%;
+`;
 
-export const Meter = ({ showAsNumber = false }: IProps) => {
+export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
   const {
     colors: { header },
   } = useTheme();
@@ -59,8 +52,8 @@ export const Meter = ({ showAsNumber = false }: IProps) => {
     logEvent(AnalyticsEvent.ValueChange, { value: percent });
   };
 
-  const onContentClick = (event: MouseEvent) => {
-    updateGauge(event.clientX / window.innerWidth);
+  const onContentClick = (position: ClickPosition) => {
+    updateGauge(position[0] / window.innerWidth);
   };
 
   useEffect(() => {
@@ -83,15 +76,17 @@ export const Meter = ({ showAsNumber = false }: IProps) => {
       staticZones: getMeterColorPercents(),
     };
 
-    gaugeRef.current = new Gauge(canvasRef.current).setOptions(options);
-    gaugeRef.current.maxValue = 100;
-    gaugeRef.current.setMinValue(0);
-    gaugeRef.current.set(0);
+    const gauge = new Gauge(canvasRef.current).setOptions(options);
+    gauge.maxValue = 100;
+    gauge.minValue = 0;
+    gauge.animationSpeed = 100;
+    gauge.set(0);
+    gaugeRef.current = gauge;
   }, [header, showAsNumber]);
 
   return (
-    <Container onClick={onContentClick}>
-      {showAsNumber ? <Number>{gaugeValue}%</Number> : <canvas ref={canvasRef}></canvas>}
-    </Container>
+    <ClickEffect onClickPosition={onContentClick}>
+      {showAsNumber ? <Number>{gaugeValue}%</Number> : <StyledCanvas ref={canvasRef}></StyledCanvas>}
+    </ClickEffect>
   );
 };
