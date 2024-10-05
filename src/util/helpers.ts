@@ -1,16 +1,16 @@
-import { meterColors } from "./constants";
-import { MeterColorPercent } from "./types";
+import { METER_COLORS } from './constants';
+import { MeterColorPercent } from './custom-types';
 
 export const getMeterColor = (percentage: number): string => {
-  const index = Math.floor(meterColors.length * (percentage / 100));
-  return meterColors[Math.min(index, meterColors.length - 1)];
+  const index = Math.floor(METER_COLORS.length * (percentage / 100));
+  return METER_COLORS[Math.min(index, METER_COLORS.length - 1)];
 };
 
 export const getMeterColorPercents = (): MeterColorPercent[] => {
-  return meterColors.map((color, index) => ({
+  return METER_COLORS.map((color, index) => ({
     strokeStyle: color,
-    min: Math.floor(index * (100 / meterColors.length)),
-    max: Math.ceil((index + 1) * (100 / meterColors.length)),
+    min: Math.floor(index * (100 / METER_COLORS.length)),
+    max: Math.ceil((index + 1) * (100 / METER_COLORS.length)),
   }));
 };
 

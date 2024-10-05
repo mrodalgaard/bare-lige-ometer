@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import { useDebouncedCallback } from "use-debounce/lib";
-import { StringParam, useQueryParam } from "use-query-params";
-import analytics, { LogEvent } from "util/analytics";
-import { QueryParameter } from "util/types";
+import React, { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import { useDebouncedCallback } from 'use-debounce';
+import { StringParam, useQueryParam } from 'use-query-params';
+import { AnalyticsEvent, logEvent } from 'util/analytics';
+import { QueryParameter } from 'util/custom-types';
 
 const StyledInput = styled.input`
   display: block;
@@ -14,26 +14,27 @@ const StyledInput = styled.input`
   border: 0;
   outline: 0;
   font-size: 30px;
-  color: ${({ theme }) => theme.header};
+  color: ${({ theme }) => theme.colors.header};
   text-align: center;
+
+  &::placeholder {
+    opacity: 0.2;
+  }
 `;
 
 const StyledLabel = styled.label`
   display: none;
 `;
 
-const Input = () => {
-  const [title, setTitle] = useState("");
-  const [paramTitle, setParamTitle] = useQueryParam(
-    QueryParameter.title,
-    StringParam
-  );
+export const Input = () => {
+  const [title, setTitle] = useState('');
+  const [paramTitle, setParamTitle] = useQueryParam(QueryParameter.title, StringParam);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Set query parameter title and log event on debounced title change
   const debounceParamTitle = useDebouncedCallback((debouncedTitle: string) => {
-    analytics.logEvent(LogEvent.TextChange);
+    logEvent(AnalyticsEvent.TextChange);
     setParamTitle(debouncedTitle);
   }, 500);
 
@@ -61,16 +62,8 @@ const Input = () => {
 
   return (
     <>
-      <StyledLabel htmlFor="text">CHANGE TEXT</StyledLabel>
-      <StyledInput
-        id="text"
-        ref={inputRef}
-        type="text"
-        value={title}
-        onChange={onChange}
-      />
+      <StyledLabel htmlFor="text">Reason</StyledLabel>
+      <StyledInput id="text" ref={inputRef} type="text" placeholder="..." value={title} onChange={onChange} />
     </>
   );
 };
-
-export default Input;

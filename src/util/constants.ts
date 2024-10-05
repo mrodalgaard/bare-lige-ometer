@@ -1,7 +1,11 @@
-import theme from "./theme";
+import { theme } from './theme';
 
-export const title = process.env.REACT_APP_WEBSITE_NAME ?? "";
+export const APP_TITLE = "BARE-LIGE-O'METER";
 
-export const meterColors = [theme.success, theme.warning, theme.error];
+export const APP_VERSION = __APP_VERSION__ ?? '';
 
-export const githubLink = process.env.REACT_APP_GIT ?? "";
+export const BANNER_SIZE = '80px';
+
+export const METER_COLORS = [theme.colors.success, theme.colors.warning, theme.colors.error];
+
+export const GITHUB_LINK = __APP_GIT__ ?? '';

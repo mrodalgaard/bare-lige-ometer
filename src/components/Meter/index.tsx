@@ -1,13 +1,14 @@
-import { Gauge } from "gaugeJS";
-import React, { MouseEvent, useEffect, useRef, useState } from "react";
-import styled, { useTheme } from "styled-components";
-import { NumberParam, useQueryParam } from "use-query-params";
-import analytics, { LogEvent } from "util/analytics";
-import { capValue, getMeterColorPercents } from "util/helpers";
-import { QueryParameter } from "util/types";
+import { Gauge } from 'gaugeJS';
+import { MouseEvent, useEffect, useRef, useState } from 'react';
+import styled, { useTheme } from 'styled-components';
+import { NumberParam, useQueryParam } from 'use-query-params';
+import { AnalyticsEvent, logEvent } from 'util/analytics';
+import { QueryParameter } from 'util/custom-types';
+import { capValue, getMeterColorPercents } from 'util/helpers';
 
 const Container = styled.div`
   display: flex;
+  cursor: pointer;
 
   canvas {
     flex: 1;
@@ -18,7 +19,7 @@ const Container = styled.div`
 
 const Number = styled.p`
   font-size: 190px;
-  color: ${({ theme }) => theme.header};
+  color: ${({ theme }) => theme.colors.header};
   width: 100%;
   margin: 10px;
   text-align: center;
@@ -28,13 +29,12 @@ interface IProps {
   showAsNumber?: boolean;
 }
 
-const Meter = ({ showAsNumber = false }: IProps) => {
-  const { header } = useTheme();
+export const Meter = ({ showAsNumber = false }: IProps) => {
+  const {
+    colors: { header },
+  } = useTheme();
   const [gaugeValue, setGaugeValue] = useState(0);
-  const [paramValue, setParamValue] = useQueryParam(
-    QueryParameter.value,
-    NumberParam
-  );
+  const [paramValue, setParamValue] = useQueryParam(QueryParameter.value, NumberParam);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const gaugeRef = useRef<typeof Gauge>(null);
@@ -56,7 +56,7 @@ const Meter = ({ showAsNumber = false }: IProps) => {
   const updateGauge = (value: number) => {
     const percent = Math.round(capValue(value * 100));
     setGaugeValue(percent);
-    analytics.logEvent(LogEvent.ValueChange, { value: percent });
+    logEvent(AnalyticsEvent.ValueChange, { value: percent });
   };
 
   const onContentClick = (event: MouseEvent) => {
@@ -91,13 +91,7 @@ const Meter = ({ showAsNumber = false }: IProps) => {
 
   return (
     <Container onClick={onContentClick}>
-      {showAsNumber ? (
-        <Number>{gaugeValue}%</Number>
-      ) : (
-        <canvas ref={canvasRef}></canvas>
-      )}
+      {showAsNumber ? <Number>{gaugeValue}%</Number> : <canvas ref={canvasRef}></canvas>}
     </Container>
   );
 };
-
-export default Meter;
