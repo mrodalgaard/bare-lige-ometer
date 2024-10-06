@@ -56,6 +56,7 @@ export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
     updateGauge(position[0] / window.innerWidth);
   };
 
+  // Create gauge
   useEffect(() => {
     if (showAsNumber) {
       return;
