@@ -1,8 +1,7 @@
 ci:
   collect:
-    staticDistDir: "./build"
-    settings:
-      emulatedFormFactor: "desktop"
+    staticDistDir: ./dist
+    isSinglePageApplication: true
 
   upload:
-    target: "temporary-public-storage"
+    target: temporary-public-storage
