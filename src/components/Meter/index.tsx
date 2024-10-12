@@ -1,11 +1,12 @@
 import { ClickEffect } from 'components/ClickEffect';
 import { Gauge } from 'gaugeJS';
+import { AnalyticsEvent } from 'models/AnalyticsEvent';
+import { ClickPosition } from 'models/ClickPosition';
+import { QueryParameter } from 'models/QueryParameter';
 import { useEffect, useRef, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { NumberParam, useQueryParam } from 'use-query-params';
-import { AnalyticsEvent, logEvent } from 'util/analytics';
-import { ClickPosition } from 'util/ClickPosition';
-import { QueryParameter } from 'util/custom-types';
+import { logEvent } from 'util/analytics';
 import { capValue, getMeterColorPercents } from 'util/helpers';
 
 const Number = styled.p`

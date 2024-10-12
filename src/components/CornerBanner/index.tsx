@@ -1,5 +1,6 @@
+import { AnalyticsEvent } from 'models/AnalyticsEvent';
 import styled, { useTheme } from 'styled-components';
-import { AnalyticsEvent, logEvent } from 'util/analytics';
+import { logEvent } from 'util/analytics';
 import { APP_VERSION, BANNER_SIZE, GITHUB_LINK } from 'util/constants';
 
 const StyledLink = styled.a`

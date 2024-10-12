@@ -1,6 +1,6 @@
+import { ClickPosition } from 'models/ClickPosition';
 import { useState } from 'react';
 import styled from 'styled-components';
-import { ClickPosition } from 'util/ClickPosition';
 
 const ClickRipple = styled.div<{ $position: ClickPosition }>`
   top: ${({ $position }) => $position[1]}px;

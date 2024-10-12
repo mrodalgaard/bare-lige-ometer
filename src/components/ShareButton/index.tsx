@@ -1,8 +1,9 @@
+import { AnalyticsEvent } from 'models/AnalyticsEvent';
+import { WebShareData } from 'models/WebShareData';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { AnalyticsEvent, logEvent } from 'util/analytics';
+import { logEvent } from 'util/analytics';
 import { APP_TITLE } from 'util/constants';
-import { ShareData } from 'util/custom-types';
 
 const StyledLink = styled.a`
   position: absolute;
@@ -33,7 +34,7 @@ export const ShareButton = () => {
   }, [copied, setCopied]);
 
   // Copy to clipboard
-  const addToClipboard = (shareData: ShareData): boolean => {
+  const addToClipboard = (shareData: WebShareData): boolean => {
     if (window.navigator?.clipboard?.writeText) {
       window.navigator.clipboard.writeText(shareData.url);
       return true;
@@ -42,7 +43,7 @@ export const ShareButton = () => {
   };
 
   // Share using Web Share API
-  const webShare = (shareData: ShareData): boolean => {
+  const webShare = (shareData: WebShareData): boolean => {
     const navigator = window.navigator;
     if (navigator?.share) {
       try {

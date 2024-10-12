@@ -1,9 +1,10 @@
+import { AnalyticsEvent } from 'models/AnalyticsEvent';
+import { QueryParameter } from 'models/QueryParameter';
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useDebouncedCallback } from 'use-debounce';
 import { StringParam, useQueryParam } from 'use-query-params';
-import { AnalyticsEvent, logEvent } from 'util/analytics';
-import { QueryParameter } from 'util/custom-types';
+import { logEvent } from 'util/analytics';
 
 const StyledInput = styled.input`
   display: block;

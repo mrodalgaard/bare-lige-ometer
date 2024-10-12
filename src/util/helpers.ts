@@ -1,5 +1,5 @@
+import { MeterColorPercent } from 'models/MeterColorPercent';
 import { METER_COLORS } from './constants';
-import { MeterColorPercent } from './custom-types';
 
 export const getMeterColor = (percentage: number): string => {
   const index = Math.floor(METER_COLORS.length * (percentage / 100));

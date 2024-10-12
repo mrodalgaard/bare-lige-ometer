@@ -1,6 +1,6 @@
+import { ClickPosition } from 'models/ClickPosition';
 import { ReactNode, useState } from 'react';
 import styled from 'styled-components';
-import { ClickPosition } from 'util/ClickPosition';
 import { ClickEffectRipple } from './ClickEffectRipple';
 
 const Container = styled.div`
