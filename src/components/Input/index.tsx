@@ -34,7 +34,7 @@ export const Input = () => {
 
   // Set query parameter title and log event on debounced title change
   const debounceParamTitle = useDebouncedCallback((debouncedTitle: string) => {
-    logEvent(AnalyticsEvent.TextChange);
+    logEvent(AnalyticsEvent.TextChange, { text: debouncedTitle });
     setTitle(debouncedTitle || undefined);
   }, 500);
 

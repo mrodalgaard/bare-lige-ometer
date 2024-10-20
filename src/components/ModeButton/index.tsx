@@ -1,13 +1,17 @@
 import { Button } from 'components/Button';
 import { AppContext } from 'contexts/AppContext';
+import { AnalyticsEvent } from 'models/AnalyticsEvent';
 import { MouseEvent, useCallback, useContext } from 'react';
 import { Moon, Sun } from 'react-feather';
+import { logEvent } from 'util/analytics';
 
 export const ModeButton = () => {
   const { mode, toggleMode, reducedMotion } = useContext(AppContext);
 
   const toggleWithAnimation = useCallback(
     (event: MouseEvent<HTMLElement>) => {
+      logEvent(AnalyticsEvent.ModeClick);
+
       // Get the mouse click position and calculate the end radius
       const x = event.clientX;
       const y = event.clientY;

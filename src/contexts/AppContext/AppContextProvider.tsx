@@ -1,7 +1,9 @@
+import { AnalyticsEvent } from 'models/AnalyticsEvent';
 import { ReactNode, useEffect, useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { NumberParam, QueryParamProvider, StringParam, useQueryParam } from 'use-query-params';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
+import { setUserProperty } from 'util/analytics';
 import { AppContext } from './AppContext';
 import { LOCAL_STORAGE_KEY } from './constants';
 import { QueryParameter } from './QueryParameter';
@@ -25,6 +27,7 @@ const AppContextProviderWithQueryParam = ({ children }: { children: ReactNode })
 
   // Persist state when updated
   useEffect(() => {
+    setUserProperty(AnalyticsEvent.Mode, mode);
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify({ mode }));
   }, [mode]);
 
