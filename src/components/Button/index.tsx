@@ -37,7 +37,10 @@ const StyledButton = styled.button`
     svg {
       color: ${({ theme }) => theme.colors.success};
       transition: color 0.5s ease;
-      animation: 1.5s ease-in ${wiggleKeyframes};
+
+      @media (prefers-reduced-motion: no-preference) {
+        animation: 1.5s ease-in ${wiggleKeyframes};
+      }
     }
   }
 
@@ -60,25 +63,34 @@ const fadeDownKeyframes = keyframes`
 `;
 
 const ClickedLabel = styled.p<{ $clicked?: boolean }>`
+  display: none;
   margin: 0;
   font-size: 14px;
 
-  ${({ $clicked }) => {
-    switch ($clicked) {
-      case true:
-        return css`
-          animation: 0.3s ease forwards ${fadeDownKeyframes};
-        `;
-      case false:
-        return css`
-          animation: 0.3s ease reverse forwards ${fadeDownKeyframes};
-        `;
-      default:
-        return css`
-          display: none;
-        `;
-    }
-  }}
+  @media (prefers-reduced-motion: no-preference) {
+    display: block;
+
+    ${({ $clicked }) => {
+      switch ($clicked) {
+        case true:
+          return css`
+            animation: 0.3s ease forwards ${fadeDownKeyframes};
+          `;
+        case false:
+          return css`
+            animation: 0.3s ease reverse forwards ${fadeDownKeyframes};
+          `;
+        default:
+          return css`
+            display: none;
+          `;
+      }
+    }}
+  }
+
+  /* @media (prefers-reduced-motion: reduce) {
+    display: none;
+  } */
 `;
 
 export const Button = ({

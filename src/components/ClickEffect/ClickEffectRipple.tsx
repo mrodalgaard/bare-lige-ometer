@@ -23,11 +23,14 @@ const ClickRipple = styled.div<{ $position: ClickPosition }>`
   top: ${({ $position }) => $position[1]}px;
   left: ${({ $position }) => $position[0]}px;
 
-  position: fixed;
-  border-style: solid;
-  border-color: ${({ theme }) => theme.colors.primary};
-  border-radius: 50%;
-  animation: 0.4s ease-out ${rippleKeyframes};
+  @media (prefers-reduced-motion: no-preference) {
+    position: fixed;
+    border-style: solid;
+    border-color: ${({ theme }) => theme.colors.primary};
+    border-radius: 50%;
+
+    animation: 0.4s ease-out ${rippleKeyframes};
+  }
 `;
 
 export const ClickEffectRipple = ({ position }: { position: ClickPosition }) => {

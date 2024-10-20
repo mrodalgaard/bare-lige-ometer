@@ -6,6 +6,7 @@ import { AppContext } from './AppContext';
 import { LOCAL_STORAGE_KEY } from './constants';
 import { QueryParameter } from './QueryParameter';
 import { useAppContextInitializer } from './useAppContextInitializer';
+import { useReducedMotion } from './useReducedMotion';
 
 const AppContextProviderWithQueryParam = ({ children }: { children: ReactNode }) => {
   const initialState = useAppContextInitializer();
@@ -13,6 +14,8 @@ const AppContextProviderWithQueryParam = ({ children }: { children: ReactNode })
   // Title and value are stored as query parameters
   const [title, setTitle] = useQueryParam(QueryParameter.title, StringParam);
   const [value, setValue] = useQueryParam(QueryParameter.value, NumberParam);
+
+  const reducedMotion = useReducedMotion();
 
   // Context state for mode
   const [mode, setMode] = useState(initialState.mode);
@@ -26,7 +29,9 @@ const AppContextProviderWithQueryParam = ({ children }: { children: ReactNode })
   }, [mode]);
 
   return (
-    <AppContext.Provider value={{ title, setTitle, value, setValue, mode, toggleMode }}>{children}</AppContext.Provider>
+    <AppContext.Provider value={{ title, setTitle, value, setValue, mode, toggleMode, reducedMotion }}>
+      {children}
+    </AppContext.Provider>
   );
 };
 

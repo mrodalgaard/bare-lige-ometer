@@ -8,6 +8,7 @@ interface AppContextType {
   setValue: (value?: number) => void;
   mode: Mode;
   toggleMode: () => void;
+  reducedMotion: boolean;
 }
 
 export const defaultContext: AppContextType = {
@@ -15,6 +16,7 @@ export const defaultContext: AppContextType = {
   setValue: () => {},
   mode: 'light',
   toggleMode: () => {},
+  reducedMotion: false,
 };
 
 export const AppContext = createContext<AppContextType>(defaultContext);

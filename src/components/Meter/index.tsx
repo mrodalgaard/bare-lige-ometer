@@ -33,7 +33,7 @@ export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
   const meterColorPercents = useMeterColorPercents();
 
   const [gaugeValue, setGaugeValue] = useState(0);
-  const { value, setValue } = useContext(AppContext);
+  const { value, setValue, reducedMotion } = useContext(AppContext);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const gaugeRef = useRef<typeof Gauge>(null);
@@ -86,10 +86,10 @@ export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
     const gauge = new Gauge(canvasRef.current).setOptions(options);
     gauge.maxValue = 100;
     gauge.minValue = 0;
-    gauge.animationSpeed = 100;
+    gauge.animationSpeed = reducedMotion ? 1 : 100;
     gauge.set(0);
     gaugeRef.current = gauge;
-  }, [primary, meterColorPercents, showAsNumber]);
+  }, [primary, meterColorPercents, showAsNumber, reducedMotion]);
 
   return (
     <ClickEffect onClickPosition={onContentClick}>

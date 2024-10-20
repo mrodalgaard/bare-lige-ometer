@@ -4,7 +4,7 @@ import { MouseEvent, useCallback, useContext } from 'react';
 import { Moon, Sun } from 'react-feather';
 
 export const ModeButton = () => {
-  const { mode, toggleMode } = useContext(AppContext);
+  const { mode, toggleMode, reducedMotion } = useContext(AppContext);
 
   const toggleWithAnimation = useCallback(
     (event: MouseEvent<HTMLElement>) => {
@@ -21,14 +21,14 @@ export const ModeButton = () => {
             clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px)`],
           },
           {
-            duration: 500,
+            duration: reducedMotion ? 0 : 500,
             easing: 'ease-out',
             pseudoElement: '::view-transition-new(root)',
           }
         );
       });
     },
-    [toggleMode]
+    [toggleMode, reducedMotion]
   );
 
   return (

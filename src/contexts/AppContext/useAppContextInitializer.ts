@@ -11,6 +11,7 @@ export const useAppContextInitializer = () => {
     const localStorageState = localStorage?.getItem(LOCAL_STORAGE_KEY);
     if (localStorageState) {
       const parsedState = JSON.parse(localStorageState);
+      // TODO: Validate parsed state
       if (parsedState) {
         return parsedState;
       }
