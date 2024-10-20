@@ -13,11 +13,12 @@ declare module 'styled-components' {
     spaces: string[];
     fontSizes: string[];
     colors: {
-      background: string;
-      header: string;
       success: string;
       warning: string;
       error: string;
+      background: string;
+      header: string;
+      meter: string[];
     };
   }
 }

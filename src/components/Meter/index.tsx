@@ -3,11 +3,10 @@ import { AppContext } from 'contexts/AppContext';
 import { Gauge } from 'gaugeJS';
 import { AnalyticsEvent } from 'models/AnalyticsEvent';
 import { ClickPosition } from 'models/ClickPosition';
-import { MeterColorPercent } from 'models/MeterColorPercent';
 import { useContext, useEffect, useRef, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { logEvent } from 'util/analytics';
-import { METER_COLORS } from 'util/constants';
+import { useMeterColorPercents } from './useMeterColorPercents';
 
 const Number = styled.p`
   font-size: 190px;
@@ -23,22 +22,16 @@ const StyledCanvas = styled.canvas`
   width: 100%;
 `;
 
-const getMeterColorPercents = (): MeterColorPercent[] => {
-  return METER_COLORS.map((color, index) => ({
-    strokeStyle: color,
-    min: Math.floor(index * (100 / METER_COLORS.length)),
-    max: Math.ceil((index + 1) * (100 / METER_COLORS.length)),
-  }));
-};
-
 const capValue = (value: number): number => {
   return Math.min(100, Math.max(0, value));
 };
 
 export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
   const {
-    colors: { header },
+    colors: { header: color },
   } = useTheme();
+  const meterColorPercents = useMeterColorPercents();
+
   const [gaugeValue, setGaugeValue] = useState(0);
   const { value, setValue } = useContext(AppContext);
 
@@ -82,12 +75,12 @@ export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
       pointer: {
         length: 0.55,
         strokeWidth: 0.1,
-        color: header,
+        color,
       },
       limitMax: false,
       limitMin: true,
       highDpiSupport: true,
-      staticZones: getMeterColorPercents(),
+      staticZones: meterColorPercents,
     };
 
     const gauge = new Gauge(canvasRef.current).setOptions(options);
@@ -96,7 +89,7 @@ export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
     gauge.animationSpeed = 100;
     gauge.set(0);
     gaugeRef.current = gauge;
-  }, [header, showAsNumber]);
+  }, [color, meterColorPercents, showAsNumber]);
 
   return (
     <ClickEffect onClickPosition={onContentClick}>

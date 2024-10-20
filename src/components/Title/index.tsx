@@ -1,7 +1,6 @@
-import { AppContext } from 'contexts/AppContext';
-import { useContext } from 'react';
-import styled, { useTheme } from 'styled-components';
-import { APP_TITLE, METER_COLORS } from 'util/constants';
+import styled from 'styled-components';
+import { APP_TITLE } from 'util/constants';
+import { useMeterColor } from './useMeterColor';
 
 const Content = styled.div`
   display: flex;
@@ -32,23 +31,8 @@ const SubtitleLink = styled.a`
   margin-top: -6px;
 `;
 
-const getMeterColor = (percentage: number | undefined | null, defaultColor: string): string => {
-  if (percentage === undefined || percentage === null) {
-    return defaultColor;
-  }
-  const index = Math.floor(METER_COLORS.length * (percentage / 100));
-  return METER_COLORS[Math.min(index, METER_COLORS.length - 1)];
-};
-
 export const Title = () => {
-  const { value } = useContext(AppContext);
-
-  // TODO: Avoid using this by moving logic to styled components
-  const {
-    colors: { header },
-  } = useTheme();
-
-  const color = getMeterColor(value, header);
+  const color = useMeterColor();
 
   return (
     <Content>

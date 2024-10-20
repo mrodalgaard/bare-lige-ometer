@@ -6,18 +6,20 @@ const baseColors = {
   error: '#d63031',
 };
 
+const meter = [baseColors.success, baseColors.warning, baseColors.error];
+
 export const lightColors = {
+  ...baseColors,
   background: '#ecf0f1',
   header: '#464a4e',
-
-  ...baseColors,
+  meter,
 };
 
 export const darkColors = {
+  ...baseColors,
   background: '#282C34',
   header: '#ecf0f1',
-
-  ...baseColors,
+  meter,
 };
 
 const breakpoints = {
