@@ -1,17 +1,11 @@
 import { AppContext } from 'contexts/AppContext';
 import { useContext } from 'react';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import { APP_TITLE, METER_COLORS } from 'util/constants';
-import { theme } from 'util/theme';
 
 const Content = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 80px;
-
-  ${({ theme }) => theme.mediaQueries.md} {
-    margin-top: 0;
-  }
 `;
 
 const Header = styled.header`
@@ -29,6 +23,7 @@ const H1 = styled.h1`
 const HeaderLink = styled.a`
   color: ${({ color }) => color};
   text-decoration: none;
+  transition: color 1s ease;
 `;
 
 const SubtitleLink = styled.a`
@@ -37,9 +32,9 @@ const SubtitleLink = styled.a`
   margin-top: -6px;
 `;
 
-const getMeterColor = (percentage: number | undefined | null): string => {
+const getMeterColor = (percentage: number | undefined | null, defaultColor: string): string => {
   if (percentage === undefined || percentage === null) {
-    return theme.colors.header;
+    return defaultColor;
   }
   const index = Math.floor(METER_COLORS.length * (percentage / 100));
   return METER_COLORS[Math.min(index, METER_COLORS.length - 1)];
@@ -48,7 +43,12 @@ const getMeterColor = (percentage: number | undefined | null): string => {
 export const Title = () => {
   const { value } = useContext(AppContext);
 
-  const color = getMeterColor(value);
+  // TODO: Avoid using this by moving logic to styled components
+  const {
+    colors: { header },
+  } = useTheme();
+
+  const color = getMeterColor(value, header);
 
   return (
     <Content>

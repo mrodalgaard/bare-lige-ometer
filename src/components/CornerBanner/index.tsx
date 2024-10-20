@@ -4,15 +4,13 @@ import { logEvent } from 'util/analytics';
 import { APP_VERSION, BANNER_SIZE, GITHUB_LINK } from 'util/constants';
 
 const StyledLink = styled.a`
-  position: absolute;
-  top: 0;
-  right: 0;
   display: flex;
   text-decoration: none;
   color: ${({ theme }) => theme.colors.header};
 
   &:hover svg {
     fill: ${({ theme }) => theme.colors.success};
+    transition: fill 0.5s ease;
   }
 `;
 

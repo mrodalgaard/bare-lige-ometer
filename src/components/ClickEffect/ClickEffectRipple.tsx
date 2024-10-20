@@ -1,6 +1,23 @@
 import { ClickPosition } from 'models/ClickPosition';
 import { useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const rippleKeyframes = keyframes`
+  0% {
+    opacity: 1;
+    width: 0;
+    height: 0;
+    margin: 0;
+    border-width: 5px;
+  }
+  100% {
+    opacity: 0.2;
+    width: 240px;
+    height: 240px;
+    margin: -120px;
+    border-width: 0;
+  }
+`;
 
 const ClickRipple = styled.div<{ $position: ClickPosition }>`
   top: ${({ $position }) => $position[1]}px;
@@ -10,24 +27,7 @@ const ClickRipple = styled.div<{ $position: ClickPosition }>`
   border-style: solid;
   border-color: ${({ theme }) => theme.colors.header};
   border-radius: 50%;
-  animation: clickRipple 0.4s ease-out;
-
-  @keyframes clickRipple {
-    0% {
-      opacity: 1;
-      width: 0;
-      height: 0;
-      margin: 0;
-      border-width: 5px;
-    }
-    100% {
-      opacity: 0.2;
-      width: 240px;
-      height: 240px;
-      margin: -120px;
-      border-width: 0;
-    }
-  }
+  animation: 0.4s ease-out ${rippleKeyframes};
 `;
 
 export const ClickEffectRipple = ({ position }: { position: ClickPosition }) => {

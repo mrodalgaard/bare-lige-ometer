@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 const Container = styled.div`
   width: 100%;
@@ -6,6 +6,18 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const loaderKeyframes = keyframes`
+  0% {
+    transform: rotate(-80deg);
+  }
+  50% {
+    transform: rotate(80deg);
+  }
+  100% {
+    transform: rotate(-80deg);
+  }
 `;
 
 const LoaderGauge = styled.div`
@@ -28,7 +40,7 @@ const LoaderGauge = styled.div`
     width: 8px;
     height: 52px;
     transform-origin: 50% 100%;
-    animation: loader-gauge 1000ms infinite;
+    animation: 1000ms infinite ${loaderKeyframes};
   }
 
   &::after {
@@ -40,18 +52,6 @@ const LoaderGauge = styled.div`
     top: 52px;
     width: 25px;
     height: 25px;
-  }
-
-  @keyframes loader-gauge {
-    0% {
-      transform: rotate(-80deg);
-    }
-    50% {
-      transform: rotate(80deg);
-    }
-    100% {
-      transform: rotate(-80deg);
-    }
   }
 `;
 

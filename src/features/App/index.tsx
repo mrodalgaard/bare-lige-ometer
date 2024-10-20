@@ -1,26 +1,23 @@
-import { CornerBanner } from 'components/CornerBanner';
 import { Input } from 'components/Input';
 import { Loader } from 'components/Loader';
 import { Meter } from 'components/Meter';
-import { ShareButton } from 'components/ShareButton';
 import { Title } from 'components/Title';
+import { Top } from 'components/Top';
 import { AppContextProvider } from 'contexts/AppContext';
+import { ThemeContextProvider } from 'contexts/ThemeContext';
 import { useDebouncedWindowSize } from 'hooks/useDebouncedWindowSize';
-import { ThemeProvider } from 'styled-components';
-import { theme } from 'util/theme';
 
 export const App = () => {
   const { loading } = useDebouncedWindowSize();
 
   return (
-    <ThemeProvider theme={theme}>
-      <AppContextProvider>
-        <ShareButton />
-        <CornerBanner />
+    <AppContextProvider>
+      <ThemeContextProvider>
+        <Top />
         <Title />
         <Input />
         {loading ? <Loader /> : <Meter />}
-      </AppContextProvider>
-    </ThemeProvider>
+      </ThemeContextProvider>
+    </AppContextProvider>
   );
 };

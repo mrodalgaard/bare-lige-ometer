@@ -1,4 +1,4 @@
-import { theme } from './theme';
+import { theme } from 'contexts/ThemeContext';
 
 export const APP_TITLE = "BARE-LIGE-O'METER";
 
