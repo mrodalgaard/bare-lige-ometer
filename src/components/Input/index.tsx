@@ -1,9 +1,8 @@
+import { AppContext } from 'contexts/AppContext';
 import { AnalyticsEvent } from 'models/AnalyticsEvent';
-import { QueryParameter } from 'models/QueryParameter';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useDebouncedCallback } from 'use-debounce';
-import { StringParam, useQueryParam } from 'use-query-params';
 import { logEvent } from 'util/analytics';
 
 const StyledInput = styled.input`
@@ -28,21 +27,21 @@ const StyledLabel = styled.label`
 `;
 
 export const Input = () => {
-  const [title, setTitle] = useState('');
-  const [paramTitle, setParamTitle] = useQueryParam(QueryParameter.title, StringParam);
+  const [input, setInput] = useState('');
+  const { title, setTitle } = useContext(AppContext);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Set query parameter title and log event on debounced title change
   const debounceParamTitle = useDebouncedCallback((debouncedTitle: string) => {
     logEvent(AnalyticsEvent.TextChange);
-    setParamTitle(debouncedTitle);
+    setTitle(debouncedTitle || undefined);
   }, 500);
 
   useEffect(() => {
     // Set input title value to query parameter title
-    if (paramTitle !== undefined && paramTitle !== null) {
-      setTitle(paramTitle);
+    if (title !== undefined && title !== null) {
+      setInput(title);
     }
     // Focus input if title is not set
     else {
@@ -53,18 +52,18 @@ export const Input = () => {
 
   // Use debounce to update title dependencies
   useEffect(() => {
-    debounceParamTitle.callback(title);
+    debounceParamTitle.callback(input);
     return debounceParamTitle.cancel;
-  }, [title, debounceParamTitle]);
+  }, [input, debounceParamTitle]);
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
+    setInput(event.target.value);
   };
 
   return (
     <>
       <StyledLabel htmlFor="text">Reason</StyledLabel>
-      <StyledInput id="text" ref={inputRef} type="text" placeholder="..." value={title} onChange={onChange} />
+      <StyledInput id="text" ref={inputRef} type="text" placeholder="..." value={input} onChange={onChange} />
     </>
   );
 };

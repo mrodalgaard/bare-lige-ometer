@@ -1,11 +1,10 @@
 import { ClickEffect } from 'components/ClickEffect';
+import { AppContext } from 'contexts/AppContext';
 import { Gauge } from 'gaugeJS';
 import { AnalyticsEvent } from 'models/AnalyticsEvent';
 import { ClickPosition } from 'models/ClickPosition';
-import { QueryParameter } from 'models/QueryParameter';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
-import { NumberParam, useQueryParam } from 'use-query-params';
 import { logEvent } from 'util/analytics';
 import { capValue, getMeterColorPercents } from 'util/helpers';
 
@@ -28,24 +27,24 @@ export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
     colors: { header },
   } = useTheme();
   const [gaugeValue, setGaugeValue] = useState(0);
-  const [paramValue, setParamValue] = useQueryParam(QueryParameter.value, NumberParam);
+  const { value, setValue } = useContext(AppContext);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const gaugeRef = useRef<typeof Gauge>(null);
 
   // Set gauge value to query parameter after render
   useEffect(() => {
-    if (paramValue !== undefined && paramValue !== null) {
-      setGaugeValue(capValue(paramValue));
+    if (value !== undefined && value !== null) {
+      setGaugeValue(capValue(value));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Update query parameter and gauge when value changes
   useEffect(() => {
-    setParamValue(gaugeValue || undefined);
+    setValue(gaugeValue || undefined);
     gaugeRef?.current?.set(gaugeValue);
-  }, [gaugeValue, setParamValue]);
+  }, [gaugeValue, setValue]);
 
   const updateGauge = (value: number) => {
     const percent = Math.round(capValue(value * 100));

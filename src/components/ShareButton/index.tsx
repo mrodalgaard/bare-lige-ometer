@@ -1,9 +1,9 @@
 import { AnalyticsEvent } from 'models/AnalyticsEvent';
-import { WebShareData } from 'models/WebShareData';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { logEvent } from 'util/analytics';
 import { APP_TITLE } from 'util/constants';
+import { WebShareData } from './WebShareData';
 
 const Button = styled.button`
   position: absolute;
