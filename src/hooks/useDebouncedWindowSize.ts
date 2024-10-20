@@ -4,7 +4,7 @@ import { useDebouncedCallback } from 'use-debounce';
 type WindowSize = [number, number];
 
 export const useDebouncedWindowSize = (debounce = 250) => {
-  const [size, setSize] = useState<WindowSize>([window.innerWidth, window.innerHeight]);
+  const [size, setSize] = useState<WindowSize>([innerWidth, innerHeight]);
   const [loading, setLoading] = useState(false);
 
   // Debounce size update
@@ -17,13 +17,13 @@ export const useDebouncedWindowSize = (debounce = 250) => {
   useLayoutEffect(() => {
     const updateSize = () => {
       setLoading(true);
-      debouncedLoading.callback([window.innerWidth, window.innerHeight]);
+      debouncedLoading.callback([innerWidth, innerHeight]);
     };
 
-    window.addEventListener('resize', updateSize);
+    addEventListener('resize', updateSize);
 
     return () => {
-      window.removeEventListener('resize', updateSize);
+      removeEventListener('resize', updateSize);
       debouncedLoading.cancel();
     };
   }, [debouncedLoading]);

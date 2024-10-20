@@ -59,7 +59,7 @@ export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
   };
 
   const onContentClick = (position: ClickPosition) => {
-    updateGauge(position[0] / window.innerWidth);
+    updateGauge(position[0] / innerWidth);
   };
 
   // Create gauge

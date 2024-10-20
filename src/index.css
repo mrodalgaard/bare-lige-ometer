@@ -63,3 +63,10 @@ h6 {
 #__next {
   isolation: isolate;
 }
+
+/* Turn off default view transition animations */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}

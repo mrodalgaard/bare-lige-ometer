@@ -7,7 +7,6 @@ import { APP_TITLE } from 'util/constants';
 export const ShareButton = () => {
   // Copy to clipboard
   const addToClipboard = (shareData: ShareData): boolean => {
-    const navigator = window.navigator;
     if (shareData.url && navigator?.clipboard?.writeText) {
       navigator.clipboard.writeText(shareData.url);
       return true;
@@ -17,8 +16,7 @@ export const ShareButton = () => {
 
   // Share using Web Share API
   const webShare = async (shareData: ShareData): Promise<boolean> => {
-    const navigator = window.navigator;
-    if (navigator?.share && navigator.canShare?.(shareData)) {
+    if (navigator?.share && navigator?.canShare?.(shareData)) {
       try {
         await navigator.share(shareData);
         return true;
@@ -39,7 +37,7 @@ export const ShareButton = () => {
 
     const shareData: ShareData = {
       title: APP_TITLE,
-      url: window.location.href,
+      url: location.href,
     };
 
     addToClipboard(shareData);

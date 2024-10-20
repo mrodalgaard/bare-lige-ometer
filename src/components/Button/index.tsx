@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { MouseEvent, ReactNode, useState } from 'react';
 import styled, { css, keyframes } from 'styled-components';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -89,7 +89,7 @@ export const Button = ({
 }: {
   clickedText?: string;
   debounce?: number;
-  onClick?: () => void;
+  onClick?: (event: MouseEvent<HTMLElement>) => void;
   children: ReactNode;
 }) => {
   const [clicked, setClicked] = useState<boolean>();
@@ -98,10 +98,10 @@ export const Button = ({
     setClicked(false);
   }, debounce);
 
-  const handleClick = () => {
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
     setClicked(true);
     debouncedClick.callback();
-    onClick?.();
+    onClick?.(event);
   };
 
   return (

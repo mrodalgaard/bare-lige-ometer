@@ -17,8 +17,8 @@ export const useAppContextInitializer = () => {
     }
 
     // Try to guess the users preferred color scheme
-    if (typeof window !== 'undefined') {
-      const themeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    if (typeof matchMedia !== 'undefined') {
+      const themeQuery = matchMedia('(prefers-color-scheme: dark)');
       state.mode = themeQuery.matches ? 'dark' : 'light';
     }
 
