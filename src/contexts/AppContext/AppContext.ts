@@ -10,9 +10,11 @@ interface AppContextType {
   toggleMode: () => void;
 }
 
-export const AppContext = createContext<AppContextType>({
+export const defaultContext: AppContextType = {
   setTitle: () => {},
   setValue: () => {},
   mode: 'light',
   toggleMode: () => {},
-});
+};
+
+export const AppContext = createContext<AppContextType>(defaultContext);

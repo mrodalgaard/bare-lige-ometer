@@ -18,7 +18,7 @@ const StyledInput = styled.input`
   text-align: center;
 
   &::placeholder {
-    opacity: 0.2;
+    opacity: 0.7;
   }
 `;
 
