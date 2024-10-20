@@ -10,7 +10,7 @@ import { useMeterColorPercents } from './useMeterColorPercents';
 
 const Number = styled.p`
   font-size: 190px;
-  color: ${({ theme }) => theme.colors.header};
+  color: ${({ theme }) => theme.colors.primary};
   width: 100%;
   margin: 10px;
   text-align: center;
@@ -28,7 +28,7 @@ const capValue = (value: number): number => {
 
 export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
   const {
-    colors: { header: color },
+    colors: { primary },
   } = useTheme();
   const meterColorPercents = useMeterColorPercents();
 
@@ -75,7 +75,7 @@ export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
       pointer: {
         length: 0.55,
         strokeWidth: 0.1,
-        color,
+        color: primary,
       },
       limitMax: false,
       limitMin: true,
@@ -89,7 +89,7 @@ export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
     gauge.animationSpeed = 100;
     gauge.set(0);
     gaugeRef.current = gauge;
-  }, [color, meterColorPercents, showAsNumber]);
+  }, [primary, meterColorPercents, showAsNumber]);
 
   return (
     <ClickEffect onClickPosition={onContentClick}>

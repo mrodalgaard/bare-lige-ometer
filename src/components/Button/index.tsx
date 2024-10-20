@@ -29,7 +29,7 @@ const wiggleKeyframes = keyframes`
 
 const StyledButton = styled.button`
   border: none;
-  color: ${({ theme }) => theme.colors.header};
+  color: ${({ theme }) => theme.colors.primary};
   background: transparent;
   cursor: pointer;
 

@@ -21,7 +21,7 @@ const loaderKeyframes = keyframes`
 `;
 
 const LoaderGauge = styled.div`
-  background: ${({ theme }) => theme.colors.success};
+  background: ${({ theme }) => theme.colors.secondary};
   border-top-left-radius: 64px;
   border-top-right-radius: 64px;
   display: inline-block;

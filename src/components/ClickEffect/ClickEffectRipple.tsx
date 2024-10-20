@@ -25,7 +25,7 @@ const ClickRipple = styled.div<{ $position: ClickPosition }>`
 
   position: fixed;
   border-style: solid;
-  border-color: ${({ theme }) => theme.colors.header};
+  border-color: ${({ theme }) => theme.colors.primary};
   border-radius: 50%;
   animation: 0.4s ease-out ${rippleKeyframes};
 `;

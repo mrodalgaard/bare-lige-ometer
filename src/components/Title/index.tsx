@@ -26,7 +26,7 @@ const HeaderLink = styled.a`
 `;
 
 const SubtitleLink = styled.a`
-  color: ${({ theme }) => theme.colors.success};
+  color: ${({ theme }) => theme.colors.secondary};
   font-size: clamp(0.5rem, 1vw + 0.2rem, 1rem);
   margin-top: -6px;
 `;

@@ -5,14 +5,14 @@ import { useTheme } from 'styled-components';
 export const useMeterColor = () => {
   const { value } = useContext(AppContext);
   const {
-    colors: { meter, header },
+    colors: { meter, primary },
   } = useTheme();
 
   return useMemo(() => {
     if (value === undefined || value === null) {
-      return header;
+      return primary;
     }
     const index = Math.floor(meter.length * (value / 100));
     return meter[Math.min(index, meter.length - 1)];
-  }, [value, meter, header]);
+  }, [value, meter, primary]);
 };

@@ -14,7 +14,7 @@ const StyledInput = styled.input`
   border: 0;
   outline: 0;
   font-size: 30px;
-  color: ${({ theme }) => theme.colors.header};
+  color: ${({ theme }) => theme.colors.primary};
   text-align: center;
 
   &::placeholder {
