@@ -5,9 +5,9 @@ import { Meter } from 'components/Meter';
 import { ShareButton } from 'components/ShareButton';
 import { Title } from 'components/Title';
 import { AppContextProvider } from 'contexts/AppContext';
+import { useDebouncedWindowSize } from 'hooks/useDebouncedWindowSize';
 import { ThemeProvider } from 'styled-components';
 import { theme } from 'util/theme';
-import { useDebouncedWindowSize } from 'util/useDebouncedWindowSize';
 
 export const App = () => {
   const { loading } = useDebouncedWindowSize();

@@ -3,10 +3,11 @@ import { AppContext } from 'contexts/AppContext';
 import { Gauge } from 'gaugeJS';
 import { AnalyticsEvent } from 'models/AnalyticsEvent';
 import { ClickPosition } from 'models/ClickPosition';
+import { MeterColorPercent } from 'models/MeterColorPercent';
 import { useContext, useEffect, useRef, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { logEvent } from 'util/analytics';
-import { capValue, getMeterColorPercents } from 'util/helpers';
+import { METER_COLORS } from 'util/constants';
 
 const Number = styled.p`
   font-size: 190px;
@@ -21,6 +22,18 @@ const StyledCanvas = styled.canvas`
   max-height: calc(100vh - 260px);
   width: 100%;
 `;
+
+const getMeterColorPercents = (): MeterColorPercent[] => {
+  return METER_COLORS.map((color, index) => ({
+    strokeStyle: color,
+    min: Math.floor(index * (100 / METER_COLORS.length)),
+    max: Math.ceil((index + 1) * (100 / METER_COLORS.length)),
+  }));
+};
+
+const capValue = (value: number): number => {
+  return Math.min(100, Math.max(0, value));
+};
 
 export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
   const {
