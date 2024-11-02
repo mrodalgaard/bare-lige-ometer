@@ -46,7 +46,7 @@ export const ShareButton = () => {
 
   return (
     <Button clickedText="copied" onClick={exportButtonClick} aria-label="Share">
-      <Share size={60} />
+      <Share size={56} />
     </Button>
   );
 };

@@ -9,10 +9,10 @@ import { logEvent } from 'util/analytics';
 import { useMeterColorPercents } from './useMeterColorPercents';
 
 const Number = styled.p`
-  font-size: 190px;
+  ${({ theme }) => theme.typography('title')};
   color: ${({ theme }) => theme.colors.primary};
   width: 100%;
-  margin: 10px;
+  margin: ${({ theme }) => theme.spacing(1)};
   text-align: center;
 `;
 

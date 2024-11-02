@@ -10,8 +10,9 @@ declare module 'styled-components' {
       md: string;
       lg: string;
     };
-    spaces: string[];
-    fontSizes: string[];
+    font: string;
+    typography: (type: 'title' | 'input' | 'body') => string;
+    spacing: (factor: 0 | 0.5 | 1 | 2 | 3 | 4) => string;
     sizes: {
       banner: string;
     };

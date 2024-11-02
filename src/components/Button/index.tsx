@@ -1,5 +1,5 @@
 import { MouseEvent, ReactNode, useState } from 'react';
-import styled, { css, keyframes } from 'styled-components';
+import styled, { css, DefaultTheme, keyframes } from 'styled-components';
 import { useDebouncedCallback } from 'use-debounce';
 
 const wiggleKeyframes = keyframes`
@@ -33,6 +33,7 @@ const StyledButton = styled.button`
   background: transparent;
   cursor: pointer;
 
+  // Hover color transition and wiggle animation
   &:hover {
     svg {
       color: ${({ theme }) => theme.colors.success};
@@ -49,27 +50,28 @@ const StyledButton = styled.button`
   }
 `;
 
-const fadeDownKeyframes = keyframes`
+const fadeDownKeyframes = (props: { theme: DefaultTheme }) => keyframes`
   0% {
     opacity: 0;
     display: none;
-    margin-top: -14px;
+    margin-top: -${props.theme.spacing(2)};
   }
   100% {
     opacity: 1;
     display: block;
-    margin-top: 0;
+    margin-top: ${props.theme.spacing(0)};
   }
 `;
 
 const ClickedLabel = styled.p<{ $clicked?: boolean }>`
   display: none;
   margin: 0;
-  font-size: 14px;
+  ${({ theme }) => theme.typography('body')};
 
   @media (prefers-reduced-motion: no-preference) {
     display: block;
 
+    // Fade down and fade up animation depending on clicked state
     ${({ $clicked }) => {
       switch ($clicked) {
         case true:
@@ -87,10 +89,6 @@ const ClickedLabel = styled.p<{ $clicked?: boolean }>`
       }
     }}
   }
-
-  /* @media (prefers-reduced-motion: reduce) {
-    display: none;
-  } */
 `;
 
 export const Button = ({
@@ -110,6 +108,7 @@ export const Button = ({
     setClicked(false);
   }, debounce);
 
+  // Click callback and debounced click state
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setClicked(true);
     debouncedClick.callback();

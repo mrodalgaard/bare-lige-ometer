@@ -11,7 +11,6 @@ const Header = styled.header`
   display: flex;
   flex-direction: column;
   align-items: end;
-  margin-bottom: 0.5em;
 `;
 
 const H1 = styled.h1`
@@ -28,7 +27,7 @@ const HeaderLink = styled.a`
 const SubtitleLink = styled.a`
   color: ${({ theme }) => theme.colors.secondary};
   font-size: clamp(0.5rem, 1vw + 0.2rem, 1rem);
-  margin-top: -6px;
+  margin-top: -${({ theme }) => theme.spacing(1)};
 `;
 
 export const Title = () => {
