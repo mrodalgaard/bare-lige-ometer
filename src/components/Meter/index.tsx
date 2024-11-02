@@ -1,18 +1,18 @@
 import { ClickEffect } from 'components/ClickEffect';
+import { AppContext } from 'contexts/AppContext';
 import { Gauge } from 'gaugeJS';
-import { useEffect, useRef, useState } from 'react';
+import { AnalyticsEvent } from 'models/AnalyticsEvent';
+import { ClickPosition } from 'models/ClickPosition';
+import { useContext, useEffect, useRef, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
-import { NumberParam, useQueryParam } from 'use-query-params';
-import { AnalyticsEvent, logEvent } from 'util/analytics';
-import { ClickPosition } from 'util/ClickPosition';
-import { QueryParameter } from 'util/custom-types';
-import { capValue, getMeterColorPercents } from 'util/helpers';
+import { logEvent } from 'util/analytics';
+import { useMeterColorPercents } from './useMeterColorPercents';
 
 const Number = styled.p`
-  font-size: 190px;
-  color: ${({ theme }) => theme.colors.header};
+  ${({ theme }) => theme.typography('title')};
+  color: ${({ theme }) => theme.colors.primary};
   width: 100%;
-  margin: 10px;
+  margin: ${({ theme }) => theme.spacing(1)};
   text-align: center;
 `;
 
@@ -22,29 +22,35 @@ const StyledCanvas = styled.canvas`
   width: 100%;
 `;
 
+const capValue = (value: number): number => {
+  return Math.min(100, Math.max(0, value));
+};
+
 export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
   const {
-    colors: { header },
+    colors: { primary },
   } = useTheme();
+  const meterColorPercents = useMeterColorPercents();
+
   const [gaugeValue, setGaugeValue] = useState(0);
-  const [paramValue, setParamValue] = useQueryParam(QueryParameter.value, NumberParam);
+  const { value, setValue, reducedMotion } = useContext(AppContext);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const gaugeRef = useRef<typeof Gauge>(null);
 
   // Set gauge value to query parameter after render
   useEffect(() => {
-    if (paramValue !== undefined && paramValue !== null) {
-      setGaugeValue(capValue(paramValue));
+    if (value !== undefined && value !== null) {
+      setGaugeValue(capValue(value));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Update query parameter and gauge when value changes
   useEffect(() => {
-    setParamValue(gaugeValue || undefined);
+    setValue(gaugeValue || undefined);
     gaugeRef?.current?.set(gaugeValue);
-  }, [gaugeValue, setParamValue]);
+  }, [gaugeValue, setValue]);
 
   const updateGauge = (value: number) => {
     const percent = Math.round(capValue(value * 100));
@@ -53,7 +59,7 @@ export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
   };
 
   const onContentClick = (position: ClickPosition) => {
-    updateGauge(position[0] / window.innerWidth);
+    updateGauge(position[0] / innerWidth);
   };
 
   // Create gauge
@@ -69,21 +75,21 @@ export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
       pointer: {
         length: 0.55,
         strokeWidth: 0.1,
-        color: header,
+        color: primary,
       },
       limitMax: false,
       limitMin: true,
       highDpiSupport: true,
-      staticZones: getMeterColorPercents(),
+      staticZones: meterColorPercents,
     };
 
     const gauge = new Gauge(canvasRef.current).setOptions(options);
     gauge.maxValue = 100;
     gauge.minValue = 0;
-    gauge.animationSpeed = 100;
+    gauge.animationSpeed = reducedMotion ? 1 : 100;
     gauge.set(0);
     gaugeRef.current = gauge;
-  }, [header, showAsNumber]);
+  }, [primary, meterColorPercents, showAsNumber, reducedMotion]);
 
   return (
     <ClickEffect onClickPosition={onContentClick}>

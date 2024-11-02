@@ -1,9 +1,8 @@
+import { App } from 'features/App';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { App } from 'features/App';
-import './index.css';
-import { reportWebVitals } from 'reportWebVitals';
-import { logWebVitals } from 'util/analytics';
+import 'reset.css';
+import { monitorPerformance } from 'util/firebase';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -11,4 +10,4 @@ createRoot(document.getElementById('root')!).render(
   </StrictMode>
 );
 
-reportWebVitals(logWebVitals);
+monitorPerformance();
