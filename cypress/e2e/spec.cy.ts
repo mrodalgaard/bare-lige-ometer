@@ -4,7 +4,7 @@ describe('Web App', () => {
   it('renders initial web app', () => {
     cy.visit('/');
 
-    cy.contains(title).color('rgb(236, 240, 241)');
+    cy.contains(title).color(['rgb(236, 240, 241)', 'rgb(70, 74, 78)']);
     cy.contains("What is 'bare lige'?");
     cy.meterValue('Percentage meter', 0);
     cy.url().should('eq', 'http://localhost:5173/');
@@ -37,7 +37,17 @@ describe('Web App', () => {
   });
 
   it('can change theme mode', () => {
-    cy.visit('/');
+    cy.visit('/', {
+      onBeforeLoad(win) {
+        cy.stub(win, 'matchMedia')
+          .callThrough()
+          .withArgs('(prefers-color-scheme: dark)')
+          .returns({
+            matches: true,
+            addEventListener: () => {},
+          });
+      },
+    });
     cy.contains(title).color('rgb(236, 240, 241)');
     cy.get('body').color('rgb(40, 44, 52)', 'background-color');
 
