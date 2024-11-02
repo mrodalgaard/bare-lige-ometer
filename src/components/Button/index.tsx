@@ -96,6 +96,7 @@ export const Button = ({
   debounce = 3000,
   onClick,
   children,
+  ...args
 }: {
   clickedText?: string;
   debounce?: number;
@@ -116,7 +117,7 @@ export const Button = ({
   };
 
   return (
-    <StyledButton onClick={handleClick}>
+    <StyledButton onClick={handleClick} {...args}>
       {children}
       <ClickedLabel $clicked={clicked} key={clicked?.toString()}>
         {clickedText}

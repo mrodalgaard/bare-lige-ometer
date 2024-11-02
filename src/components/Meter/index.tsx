@@ -22,8 +22,11 @@ const StyledCanvas = styled.canvas`
   width: 100%;
 `;
 
+const MIN_VALUE = 0;
+const MAX_VALUE = 100;
+
 const capValue = (value: number): number => {
-  return Math.min(100, Math.max(0, value));
+  return Math.min(MAX_VALUE, Math.max(MIN_VALUE, value));
 };
 
 export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
@@ -32,7 +35,7 @@ export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
   } = useTheme();
   const meterColorPercents = useMeterColorPercents();
 
-  const [gaugeValue, setGaugeValue] = useState(0);
+  const [gaugeValue, setGaugeValue] = useState<number>();
   const { value, setValue, reducedMotion } = useContext(AppContext);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -40,7 +43,7 @@ export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
 
   // Set gauge value to query parameter after render
   useEffect(() => {
-    if (value !== undefined && value !== null) {
+    if (value !== undefined && value !== null && !isNaN(value)) {
       setGaugeValue(capValue(value));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,8 +51,8 @@ export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
 
   // Update query parameter and gauge when value changes
   useEffect(() => {
-    setValue(gaugeValue || undefined);
-    gaugeRef?.current?.set(gaugeValue);
+    setValue(gaugeValue);
+    gaugeRef?.current?.set(gaugeValue ?? MIN_VALUE);
   }, [gaugeValue, setValue]);
 
   const updateGauge = (value: number) => {
@@ -84,16 +87,27 @@ export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
     };
 
     const gauge = new Gauge(canvasRef.current).setOptions(options);
-    gauge.maxValue = 100;
-    gauge.minValue = 0;
+    gauge.maxValue = MAX_VALUE;
+    gauge.minValue = MIN_VALUE;
     gauge.animationSpeed = reducedMotion ? 1 : 100;
-    gauge.set(0);
+    gauge.set(MIN_VALUE);
     gaugeRef.current = gauge;
   }, [primary, meterColorPercents, showAsNumber, reducedMotion]);
 
   return (
     <ClickEffect onClickPosition={onContentClick}>
-      {showAsNumber ? <Number>{gaugeValue}%</Number> : <StyledCanvas ref={canvasRef}></StyledCanvas>}
+      {showAsNumber ? (
+        <Number>{gaugeValue ?? MIN_VALUE}%</Number>
+      ) : (
+        <StyledCanvas
+          ref={canvasRef}
+          role="meter"
+          aria-valuenow={gaugeValue ?? MIN_VALUE}
+          aria-valuemin={MIN_VALUE}
+          aria-valuemax={MAX_VALUE}
+          aria-label="Percentage meter"
+        ></StyledCanvas>
+      )}
     </ClickEffect>
   );
 };

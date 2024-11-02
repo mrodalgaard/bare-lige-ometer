@@ -36,7 +36,11 @@ export const ModeButton = () => {
   );
 
   return (
-    <Button clickedText={mode === 'light' ? 'light' : 'dark'} onClick={toggleWithAnimation}>
+    <Button
+      clickedText={mode === 'light' ? 'light' : 'dark'}
+      onClick={toggleWithAnimation}
+      aria-label={`Change to ${mode === 'light' ? 'dark' : 'light'} mode`}
+    >
       {mode === 'light' ? <Sun size={56} /> : <Moon size={56} />}
     </Button>
   );
