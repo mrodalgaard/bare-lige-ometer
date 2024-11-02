@@ -5,17 +5,19 @@ import styled from 'styled-components';
 import { useDebouncedCallback } from 'use-debounce';
 import { logEvent } from 'util/analytics';
 
-const StyledInput = styled.input`
+const StyledTextArea = styled.textarea`
   display: block;
   margin: 0 auto;
   width: 100%;
 
   background: transparent;
   border: 0;
-  outline: 0;
-  font-size: 30px;
-  color: ${({ theme }) => theme.colors.primary};
+  outline: none;
+  resize: none;
+  overflow-y: hidden;
   text-align: center;
+  ${({ theme }) => theme.typography('input')};
+  color: ${({ theme }) => theme.colors.primary};
 
   &::placeholder {
     opacity: 0.7;
@@ -27,10 +29,10 @@ const StyledLabel = styled.label`
 `;
 
 export const Input = () => {
-  const [input, setInput] = useState('');
+  const [text, setText] = useState('');
   const { title, setTitle } = useContext(AppContext);
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   // Set query parameter title and log event on debounced title change
   const debounceParamTitle = useDebouncedCallback((debouncedTitle: string) => {
@@ -39,31 +41,39 @@ export const Input = () => {
   }, 500);
 
   useEffect(() => {
-    // Set input title value to query parameter title
+    // Set text area value to query parameter title
     if (title !== undefined && title !== null) {
-      setInput(title);
+      setText(title);
     }
-    // Focus input if title is not set
+    // Focus text area if title is not set
     else {
-      inputRef?.current?.focus();
+      textAreaRef?.current?.focus();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Auto resize textarea height
+  useEffect(() => {
+    if (textAreaRef?.current) {
+      textAreaRef.current.style.height = 'auto';
+      textAreaRef.current.style.height = textAreaRef.current.scrollHeight + 'px';
+    }
+  }, [text]);
+
   // Use debounce to update title dependencies
   useEffect(() => {
-    debounceParamTitle.callback(input);
+    debounceParamTitle.callback(text);
     return debounceParamTitle.cancel;
-  }, [input, debounceParamTitle]);
+  }, [text, debounceParamTitle]);
 
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(event.target.value);
+  const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(event.target.value);
   };
 
   return (
-    <>
+    <div>
       <StyledLabel htmlFor="text">Reason</StyledLabel>
-      <StyledInput id="text" ref={inputRef} type="text" placeholder="..." value={input} onChange={onChange} />
-    </>
+      <StyledTextArea id="text" ref={textAreaRef} placeholder="..." value={text} onChange={onChange} />
+    </div>
   );
 };
