@@ -15,9 +15,9 @@ describe('Web App', () => {
 
     cy.contains(title).color('rgb(253, 203, 110)');
     cy.meterValue('Percentage meter', 50);
-    cy.get('input').should('have.value', 'TEST');
+    cy.get('textarea').should('have.value', 'TEST');
 
-    cy.get('input').clear().type('NEW TEXT');
+    cy.get('textarea').clear().type('NEW TEXT');
     cy.url().should('include', 'title=NEW+TEXT');
 
     cy.get('body').click('left');
@@ -82,21 +82,21 @@ describe('Web App', () => {
 
   it('handles invalid query parameters', () => {
     cy.visit('/?title=undefined&value=200');
-    cy.get('input').should('have.value', 'undefined');
+    cy.get('textarea').should('have.value', 'undefined');
     cy.meterValue('Percentage meter', 100);
 
     cy.visit('/?title=+&value=KAMEL');
-    cy.get('input').should('have.value', ' ');
+    cy.get('textarea').should('have.value', ' ');
     cy.meterValue('Percentage meter', 0);
 
     cy.visit(
       '/?title=%24%7B123%7D%5C%5C%26amp%3B+%2B+%2Fquot%3BHELLOquot"+Robert%27%29%3B+DROP+TABLE+*%3B--+%F0%9F%A5%B3&value=-10'
     );
-    cy.get('input').should('have.value', '${123}\\\\&amp; + /quot;HELLOquot" Robert\'); DROP TABLE *;-- 🥳');
+    cy.get('textarea').should('have.value', '${123}\\\\&amp; + /quot;HELLOquot" Robert\'); DROP TABLE *;-- 🥳');
     cy.meterValue('Percentage meter', 0);
 
     cy.visit('/?title=&value=');
-    cy.get('input').should('have.value', '');
+    cy.get('textarea').should('have.value', '');
     cy.meterValue('Percentage meter', 0);
   });
 });
