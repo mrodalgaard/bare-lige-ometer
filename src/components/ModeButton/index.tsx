@@ -1,5 +1,6 @@
 import { Button } from 'components/Button';
 import { AppContext } from 'contexts/AppContext';
+import { Mode } from 'contexts/ThemeContext';
 import { AnalyticsEvent } from 'models/AnalyticsEvent';
 import { MouseEvent, useCallback, useContext } from 'react';
 import { Moon, Sun } from 'react-feather';
@@ -37,11 +38,11 @@ export const ModeButton = () => {
 
   return (
     <Button
-      clickedText={mode === 'light' ? 'light' : 'dark'}
+      clickedText={mode === Mode.light ? Mode.light : Mode.dark}
       onClick={toggleWithAnimation}
-      aria-label={`Change to ${mode === 'light' ? 'dark' : 'light'} mode`}
+      aria-label={`Change to ${mode === Mode.light ? Mode.dark : Mode.light} mode`}
     >
-      {mode === 'light' ? <Sun size={56} /> : <Moon size={56} />}
+      {mode === Mode.light ? <Sun size={56} /> : <Moon size={56} />}
     </Button>
   );
 };
