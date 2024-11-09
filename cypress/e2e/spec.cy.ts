@@ -22,8 +22,8 @@ describe('Web App', () => {
 
     cy.get('body').click('left');
     cy.contains(title).color('rgb(0, 184, 148)');
-    cy.meterValue('Percentage meter', 0);
-    cy.url().should('include', 'value=0');
+    cy.meterValue('Percentage meter', 14);
+    cy.url().should('include', 'value=14');
 
     cy.get('body').click('center');
     cy.contains(title).color('rgb(253, 203, 110)');
@@ -32,8 +32,8 @@ describe('Web App', () => {
 
     cy.get('body').click('right');
     cy.contains(title).color('rgb(214, 48, 49)');
-    cy.meterValue('Percentage meter', 100);
-    cy.url().should('include', 'value=100');
+    cy.meterValue('Percentage meter', 86);
+    cy.url().should('include', 'value=86');
   });
 
   it('can change theme mode', () => {
