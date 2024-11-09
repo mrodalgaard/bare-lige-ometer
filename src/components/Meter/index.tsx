@@ -25,8 +25,8 @@ const StyledCanvas = styled.canvas`
 const MIN_VALUE = 0;
 const MAX_VALUE = 100;
 
-const capValue = (value: number): number => {
-  return Math.min(MAX_VALUE, Math.max(MIN_VALUE, value));
+const minMaxValue = (value: number): number => {
+  return Math.min(MAX_VALUE, Math.max(MIN_VALUE, Math.round(value)));
 };
 
 export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
@@ -44,7 +44,7 @@ export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
   // Set gauge value to query parameter after render
   useEffect(() => {
     if (value !== undefined && value !== null && !isNaN(value)) {
-      setGaugeValue(capValue(value));
+      setGaugeValue(minMaxValue(value));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -55,14 +55,37 @@ export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
     gaugeRef?.current?.set(gaugeValue ?? MIN_VALUE);
   }, [gaugeValue, setValue]);
 
-  const updateGauge = (value: number) => {
-    const percent = Math.round(capValue(value * 100));
-    setGaugeValue(percent);
-    logEvent(AnalyticsEvent.ValueChange, { value: percent });
+  const updateGauge = (percent: number) => {
+    const value = minMaxValue(percent);
+    setGaugeValue(value);
+    logEvent(AnalyticsEvent.ValueChange, { value });
+  };
+
+  const calculateAngle = (position: ClickPosition) => {
+    // Get gauge coordinate and dimensions
+    const { x, y, width, height } = canvasRef.current?.getBoundingClientRect() ?? { x: 0, y: 0, width: 0, height: 0 };
+
+    // Get center of gauge pin (compensate for pin offset from bottom)
+    const centerX = width / 2;
+    const centerY = height * 0.9;
+
+    // Calculate angle of click from center of gauge
+    const diffX = position[0] - x - centerX;
+    const diffY = position[1] - y - centerY;
+    const angle = Math.atan2(-diffY, diffX) * (180 / Math.PI);
+
+    // Solve click below gauge by normalizing angle to 0-180
+    if (angle < -90) {
+      return 0;
+    }
+
+    // Invert angle to match gauge direction
+    return 180 - angle;
   };
 
   const onContentClick = (position: ClickPosition) => {
-    updateGauge(position[0] / innerWidth);
+    // Update gauge by percentage of angle
+    updateGauge(calculateAngle(position) / 1.8);
   };
 
   // Create gauge
@@ -87,8 +110,8 @@ export const Meter = ({ showAsNumber = false }: { showAsNumber?: boolean }) => {
     };
 
     const gauge = new Gauge(canvasRef.current).setOptions(options);
-    gauge.maxValue = MAX_VALUE;
     gauge.minValue = MIN_VALUE;
+    gauge.maxValue = MAX_VALUE;
     gauge.animationSpeed = reducedMotion ? 1 : 100;
     gauge.set(MIN_VALUE);
     gaugeRef.current = gauge;
