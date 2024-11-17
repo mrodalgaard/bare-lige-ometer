@@ -2,26 +2,30 @@ import { Button } from '.';
 
 describe('Button', () => {
   it('renders and clicks', () => {
-    const onClick = cy.stub().as('onClick');
+    const onClick = cy.stub();
 
-    cy.mount(
+    const Component = () => (
       <Button onClick={onClick} aria-label="ARIA">
         TEST
       </Button>
     );
+
+    cy.mount(<Component />);
     cy.contains('TEST');
-    cy.get('[aria-label="ARIA"]').click();
-    cy.get('@onClick').should('have.been.called');
+    cy.getAria('ARIA').click();
+    cy.wrap(onClick).should('have.been.called');
   });
 
   it('shows clicked text', () => {
     cy.clock();
-    cy.mount(
+
+    const Component = () => (
       <Button clickedText="CLICKED" debounce={100}>
         TEST
       </Button>
     );
 
+    cy.mount(<Component />);
     cy.contains('TEST');
     cy.contains('p', 'CLICKED').should('not.be.visible');
     cy.contains('TEST').click();

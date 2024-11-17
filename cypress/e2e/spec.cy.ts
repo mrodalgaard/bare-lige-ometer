@@ -37,17 +37,9 @@ describe('Web App', () => {
   });
 
   it('can change theme mode', () => {
-    cy.visit('/', {
-      onBeforeLoad(win) {
-        cy.stub(win, 'matchMedia')
-          .callThrough()
-          .withArgs('(prefers-color-scheme: dark)')
-          .returns({
-            matches: true,
-            addEventListener: () => {},
-          });
-      },
-    });
+    cy.matchMedia('(prefers-color-scheme: dark)');
+    cy.visit('/');
+
     cy.contains(title).color('rgb(236, 240, 241)');
     cy.get('body').color('rgb(40, 44, 52)', 'background-color');
 

@@ -7,18 +7,15 @@ import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import { setUserProperty } from 'util/analytics';
 import { AppContext } from './AppContext';
 import { QueryParameter } from './QueryParameter';
-import { useReducedMotion } from './useReducedMotion';
+import { useMatchMedia } from './useMatchMedia';
 import { useStorageState } from './useStorageState';
 
 const AppContextProviderWithQueryParam = ({ children }: { children: ReactNode }) => {
-  const [mode, setMode] = useStorageState('mode', modeZodType, () => {
-    // Try to guess the users preferred color scheme as default mode
-    if (typeof matchMedia !== 'undefined') {
-      const schemeQuery = matchMedia('(prefers-color-scheme: dark)');
-      return schemeQuery.matches ? Mode.dark : Mode.light;
-    }
-    return Mode.light;
-  });
+  // Try to guess the users preferred color scheme as default mode
+  const osMode = useMatchMedia('(prefers-color-scheme: dark)') ? Mode.dark : Mode.light;
+
+  // Persist mode to local storage
+  const [mode, setMode] = useStorageState('mode', modeZodType, osMode);
 
   const toggleMode = () => {
     setMode((mode) => (mode === Mode.light ? Mode.dark : Mode.light));
@@ -29,7 +26,7 @@ const AppContextProviderWithQueryParam = ({ children }: { children: ReactNode })
   const [value, setValue] = useQueryParam(QueryParameter.value, NumberParam);
 
   // Check if the user prefers reduced motion
-  const reducedMotion = useReducedMotion();
+  const reducedMotion = !useMatchMedia('(prefers-reduced-motion: no-preference)');
 
   // Log mode changes to analytics
   useEffect(() => {

@@ -1,6 +1,7 @@
 import { AppContext } from 'contexts/AppContext';
 import { ReactNode, useContext } from 'react';
-import { createGlobalStyle, ThemeProvider } from 'styled-components';
+import { createGlobalStyle, DefaultTheme, ThemeProvider } from 'styled-components';
+import { Mode } from '.';
 import { darkColors, lightColors, theme } from './theme';
 
 const GlobalStyle = createGlobalStyle`
@@ -13,6 +14,8 @@ const GlobalStyle = createGlobalStyle`
   body {
     background-color: ${({ theme }) => theme.colors.background};
     margin: 0;
+
+    // Custom font
     font-family: ${({ theme }) => theme.font}, sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -32,7 +35,7 @@ export const ThemeContextProvider = ({ children }: { children: ReactNode }) => {
   const { mode } = useContext(AppContext);
 
   // Extend base theme with mode colors
-  const themeExtended = { ...theme, colors: mode === 'dark' ? darkColors : lightColors };
+  const themeExtended: DefaultTheme = { ...theme, colors: mode === Mode.dark ? darkColors : lightColors };
 
   return (
     <ThemeProvider theme={themeExtended}>
