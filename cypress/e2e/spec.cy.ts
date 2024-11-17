@@ -43,13 +43,18 @@ describe('Web App', () => {
     cy.contains(title).color('rgb(236, 240, 241)');
     cy.get('body').color('rgb(40, 44, 52)', 'background-color');
 
-    cy.getAria('Change to light mode').click();
+    cy.getAria('Change mode').click();
     cy.contains('light');
     cy.contains(title).color('rgb(70, 74, 78)');
     cy.get('body').color('rgb(236, 240, 241)', 'background-color');
 
-    cy.getAria('Change to dark mode').click();
+    cy.getAria('Change mode').click();
     cy.contains('dark');
+    cy.get('body').color('rgb(40, 44, 52)', 'background-color');
+
+    cy.getAria('Change mode').click();
+    cy.contains('system');
+    cy.contains(title).color('rgb(236, 240, 241)');
     cy.get('body').color('rgb(40, 44, 52)', 'background-color');
   });
 

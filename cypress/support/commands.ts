@@ -29,23 +29,33 @@ Cypress.Commands.add(
 
 Cypress.Commands.add('matchMedia', (query, matches = true) => {
   return cy.window().then((win) => {
-    let mediaQueryListener: ((event: MediaQueryListEvent) => void) | undefined;
+    // Save all change listeners
+    const changeListeners: ((event: MediaQueryListEvent) => void)[] = [];
 
     // Only stub match media with query if provided
     let stub;
     if (query) {
-      stub = cy.stub(win, 'matchMedia').callThrough().withArgs(query);
+      stub = cy.stub(win, 'matchMedia').as('matchMedia').callThrough().withArgs(query);
     } else {
-      stub = cy.stub(win, 'matchMedia');
+      stub = cy.stub(win, 'matchMedia').as('matchMedia');
     }
 
-    // Return stubbed match media object with listener callback
+    // Return stubbed match media object with change listener callback
     stub.returns({
       matches,
-      addEventListener: (_: string, listener: (event: MediaQueryListEvent) => void) => (mediaQueryListener = listener),
-      removeEventListener: () => (mediaQueryListener = undefined),
+      addEventListener: (type: string, listener: (event: MediaQueryListEvent) => void) => {
+        if (type === 'change') {
+          changeListeners.push(listener);
+        }
+      },
+      removeEventListener: (type: string, listener: (event: MediaQueryListEvent) => void) => {
+        if (type === 'change') {
+          changeListeners.splice(changeListeners.indexOf(listener), 1);
+        }
+      },
     });
 
-    return (event: MediaQueryListEvent) => mediaQueryListener?.(event);
+    // Return callback which calls all change listeners
+    return (event: MediaQueryListEvent) => changeListeners.forEach((listener) => listener(event));
   });
 });

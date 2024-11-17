@@ -1,4 +1,5 @@
 import { AppContext } from 'contexts/AppContext';
+import { useMatchMedia } from 'hooks/useMatchMedia';
 import { ReactNode, useContext } from 'react';
 import { createGlobalStyle, DefaultTheme, ThemeProvider } from 'styled-components';
 import { Mode } from '.';
@@ -33,9 +34,16 @@ const GlobalStyle = createGlobalStyle`
 
 export const ThemeContextProvider = ({ children }: { children: ReactNode }) => {
   const { mode } = useContext(AppContext);
+  const prefersDarkMode = useMatchMedia('(prefers-color-scheme: dark)');
+
+  // Set theme colors and try to guess the users preferred color scheme if mode is set to system
+  let colors: DefaultTheme['colors'] = mode === Mode.dark ? darkColors : lightColors;
+  if (prefersDarkMode && mode === Mode.system) {
+    colors = darkColors;
+  }
 
   // Extend base theme with mode colors
-  const themeExtended: DefaultTheme = { ...theme, colors: mode === Mode.dark ? darkColors : lightColors };
+  const themeExtended: DefaultTheme = { ...theme, colors };
 
   return (
     <ThemeProvider theme={themeExtended}>

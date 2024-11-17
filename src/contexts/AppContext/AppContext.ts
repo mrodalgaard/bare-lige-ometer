@@ -14,7 +14,7 @@ interface AppContextType {
 export const defaultContext: AppContextType = {
   setTitle: () => {},
   setValue: () => {},
-  mode: Mode.light,
+  mode: Mode.system,
   toggleMode: () => {},
   reducedMotion: false,
 };

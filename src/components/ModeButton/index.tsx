@@ -3,7 +3,7 @@ import { AppContext } from 'contexts/AppContext';
 import { Mode } from 'contexts/ThemeContext';
 import { AnalyticsEvent } from 'models/AnalyticsEvent';
 import { MouseEvent, useCallback, useContext } from 'react';
-import { Moon, Sun } from 'react-feather';
+import { Moon, Sun, Sunset } from 'react-feather';
 import { logEvent } from 'util/analytics';
 
 export const ModeButton = () => {
@@ -36,13 +36,20 @@ export const ModeButton = () => {
     [toggleMode, reducedMotion]
   );
 
+  const getIcon = (mode: Mode) => {
+    switch (mode) {
+      case Mode.system:
+        return <Sunset size={56} />;
+      case Mode.light:
+        return <Sun size={56} />;
+      case Mode.dark:
+        return <Moon size={56} />;
+    }
+  };
+
   return (
-    <Button
-      clickedText={mode === Mode.light ? Mode.light : Mode.dark}
-      onClick={toggleWithAnimation}
-      aria-label={`Change to ${mode === Mode.light ? Mode.dark : Mode.light} mode`}
-    >
-      {mode === Mode.light ? <Sun size={56} /> : <Moon size={56} />}
+    <Button clickedText={mode} onClick={toggleWithAnimation} aria-label={`Change mode`}>
+      {getIcon(mode)}
     </Button>
   );
 };

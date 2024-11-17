@@ -60,7 +60,7 @@ export const Input = () => {
     }
   }, [text]);
 
-  // Use debounce to update title dependencies
+  // Use debounce to update title
   useEffect(() => {
     debounceParamTitle.callback(text);
     return debounceParamTitle.cancel;

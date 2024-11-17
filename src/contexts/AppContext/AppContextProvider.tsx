@@ -1,4 +1,4 @@
-import { Mode, modeZodType } from 'contexts/ThemeContext';
+import { useMatchMedia } from 'hooks/useMatchMedia';
 import { AnalyticsEvent } from 'models/AnalyticsEvent';
 import { ReactNode, useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
@@ -7,19 +7,11 @@ import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import { setUserProperty } from 'util/analytics';
 import { AppContext } from './AppContext';
 import { QueryParameter } from './QueryParameter';
-import { useMatchMedia } from './useMatchMedia';
-import { useStorageState } from './useStorageState';
+import { useToggleMode } from './useToggleMode';
 
 const AppContextProviderWithQueryParam = ({ children }: { children: ReactNode }) => {
-  // Try to guess the users preferred color scheme as default mode
-  const osMode = useMatchMedia('(prefers-color-scheme: dark)') ? Mode.dark : Mode.light;
-
-  // Persist mode to local storage
-  const [mode, setMode] = useStorageState('mode', modeZodType, osMode);
-
-  const toggleMode = () => {
-    setMode((mode) => (mode === Mode.light ? Mode.dark : Mode.light));
-  };
+  // Persist and intelligently toggle app mode
+  const { mode, toggleMode } = useToggleMode();
 
   // Title and value are stored as query parameters
   const [title, setTitle] = useQueryParam(QueryParameter.title, StringParam);

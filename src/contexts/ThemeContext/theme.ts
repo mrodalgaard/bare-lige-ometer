@@ -44,7 +44,7 @@ const baseColors = {
 
 const meter = [baseColors.success, baseColors.warning, baseColors.error];
 
-export const lightColors = {
+export const lightColors: DefaultTheme['colors'] = {
   ...baseColors,
   primary: '#464a4e',
   secondary: baseColors.success,
@@ -52,7 +52,7 @@ export const lightColors = {
   meter,
 };
 
-export const darkColors = {
+export const darkColors: DefaultTheme['colors'] = {
   ...baseColors,
   primary: '#ecf0f1',
   secondary: baseColors.success,
