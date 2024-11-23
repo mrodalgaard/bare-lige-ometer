@@ -5,6 +5,7 @@ describe('useStorageState', () => {
   it('store and rehydrate state from local storage', () => {
     const Component = ({ id = 'header' }: { id?: string }) => {
       const [name, setName] = useStorageState('name', z.string(), 'John Doe');
+
       return (
         <>
           <h1 id={id}>{name}</h1>
@@ -43,6 +44,7 @@ describe('useStorageState', () => {
           };
         }
       );
+
       return (
         <>
           <h1 id={id}>{JSON.stringify(object)}</h1>
@@ -58,5 +60,47 @@ describe('useStorageState', () => {
 
     cy.mount(<Component id="header2" />);
     cy.get('#header2').should('have.text', '{"name":"Jane Doe","age":30,"skills":["skill1","skill2"]}');
+  });
+
+  it('subscribes on storage changes', () => {
+    const Component = () => {
+      const [number] = useStorageState('number', z.number(), 123);
+
+      return <h1>{number}</h1>;
+    };
+
+    cy.mount(<Component />);
+    cy.get('h1').should('have.text', '123');
+
+    cy.window().then((win) => {
+      win.dispatchEvent(new StorageEvent('storage', { key: 'number', newValue: '1', oldValue: '123' }));
+      cy.get('h1').should('have.text', '1');
+    });
+
+    cy.window().then((win) => {
+      win.dispatchEvent(new StorageEvent('storage', { key: 'number', newValue: '456', oldValue: '1' }));
+      cy.get('h1').should('have.text', '456');
+    });
+  });
+
+  it('handles invalid data', () => {
+    const Component = () => {
+      const [number] = useStorageState('number', z.number(), 123);
+
+      return <h1>{number}</h1>;
+    };
+
+    cy.mount(<Component />);
+    cy.get('h1').should('have.text', '123');
+
+    cy.window().then((win) => {
+      win.dispatchEvent(new StorageEvent('storage', { key: 'number', newValue: 'hello', oldValue: '123' }));
+      cy.get('h1').should('have.text', '123');
+    });
+
+    cy.window().then((win) => {
+      win.dispatchEvent(new StorageEvent('storage', { key: 'number', newValue: 'NaN', oldValue: '123' }));
+      cy.get('h1').should('have.text', '123');
+    });
   });
 });

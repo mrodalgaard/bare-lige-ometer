@@ -3,6 +3,15 @@ import { z } from 'zod';
 
 type Value<T extends z.ZodType> = z.infer<T>;
 
+const parseJSON = <T extends z.ZodType<unknown>>(json: string | null, zodType: T) => {
+  try {
+    const data = JSON.parse(json ?? '');
+    return zodType.parse(data);
+  } catch {
+    return undefined;
+  }
+};
+
 export const useStorageState = <T extends z.ZodType<unknown>>(
   key: string,
   zodType: T,
@@ -10,12 +19,7 @@ export const useStorageState = <T extends z.ZodType<unknown>>(
 ) => {
   // Rehydrate and validate persisted state from local storage
   const persistedState = useMemo<Value<T> | undefined>(() => {
-    try {
-      const data = JSON.parse(localStorage?.getItem(key) ?? '');
-      return zodType.parse(data);
-    } catch {
-      return undefined;
-    }
+    return parseJSON(localStorage?.getItem(key), zodType);
   }, [key, zodType]);
 
   // Hooked react state for storage state
@@ -25,6 +29,20 @@ export const useStorageState = <T extends z.ZodType<unknown>>(
   useEffect(() => {
     localStorage.setItem(key, JSON.stringify(state));
   }, [key, state]);
+
+  useEffect(() => {
+    const handleStorage = (event: StorageEvent) => {
+      if (event.key === key) {
+        const newState = parseJSON(event.newValue, zodType);
+        if (newState !== undefined && newState !== state) {
+          setState(newState);
+        }
+      }
+    };
+
+    addEventListener('storage', handleStorage);
+    return () => removeEventListener('storage', handleStorage);
+  }, [key, zodType, state]);
 
   return [state, setState] as const;
 };

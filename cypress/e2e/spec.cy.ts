@@ -54,7 +54,7 @@ describe('Web App', () => {
     cy.url().should('include', 'value=100');
   });
 
-  it.only('can change theme mode', () => {
+  it('can change theme mode', () => {
     cy.visit('/');
     cy.matchMedia('(prefers-color-scheme: dark)');
 
