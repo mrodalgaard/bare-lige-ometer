@@ -54,9 +54,9 @@ describe('Web App', () => {
     cy.url().should('include', 'value=100');
   });
 
-  it('can change theme mode', () => {
-    cy.matchMedia('(prefers-color-scheme: dark)');
+  it.only('can change theme mode', () => {
     cy.visit('/');
+    cy.matchMedia('(prefers-color-scheme: dark)');
 
     cy.contains(title).color('rgb(236, 240, 241)');
     cy.get('body').color('rgb(40, 44, 52)', 'background-color');

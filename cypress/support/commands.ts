@@ -55,6 +55,11 @@ Cypress.Commands.add('matchMedia', (query, matches = true) => {
       },
     });
 
+    Cypress.log({
+      name: 'matchMedia',
+      message: `matchMedia for query '${query}' = ${matches ? 'true' : 'false'}`,
+    });
+
     // Return callback which calls all change listeners
     return (event: MediaQueryListEvent) => changeListeners.forEach((listener) => listener(event));
   });
