@@ -36,6 +36,24 @@ describe('Web App', () => {
     cy.url().should('include', 'value=86');
   });
 
+  it('show as number', () => {
+    cy.visit('/?title=TEST&value=50&meter=number');
+
+    cy.contains(title).color('rgb(253, 203, 110)');
+    cy.contains('50%').color('rgb(253, 203, 110)');
+    cy.get('textarea').should('have.value', 'TEST');
+
+    cy.get('body').click('left');
+    cy.contains(title).color('rgb(0, 184, 148)');
+    cy.contains('0%').color('rgb(0, 184, 148)');
+    cy.url().should('include', 'value=0');
+
+    cy.get('body').click('right');
+    cy.contains(title).color('rgb(214, 48, 49)');
+    cy.contains('100%').color('rgb(214, 48, 49)');
+    cy.url().should('include', 'value=100');
+  });
+
   it('can change theme mode', () => {
     cy.matchMedia('(prefers-color-scheme: dark)');
     cy.visit('/');

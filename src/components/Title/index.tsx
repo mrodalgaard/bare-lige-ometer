@@ -1,6 +1,8 @@
+import { AppContext } from 'contexts/AppContext';
+import { useMeterColor } from 'hooks/useMeterColor';
+import { useContext } from 'react';
 import styled from 'styled-components';
 import { APP_TITLE } from 'util/constants';
-import { useMeterColor } from './useMeterColor';
 
 const Content = styled.div`
   display: flex;
@@ -31,7 +33,9 @@ const SubtitleLink = styled.a`
 `;
 
 export const Title = () => {
-  const color = useMeterColor();
+  const { value } = useContext(AppContext);
+
+  const color = useMeterColor(value);
 
   return (
     <Content>
