@@ -2,9 +2,9 @@ import { Mode, modeZodType } from 'contexts/ThemeContext';
 import { useMatchMedia } from 'hooks/useMatchMedia';
 import { useStorageState } from './useStorageState';
 
-export const useToggleMode = () => {
+export const useToggleMode = (defaultMode: Mode) => {
   // Persist mode to local storage
-  const [mode, setMode] = useStorageState('mode', modeZodType, Mode.system);
+  const [mode, setMode] = useStorageState('mode', modeZodType, defaultMode);
 
   const prefersDarkMode = useMatchMedia('(prefers-color-scheme: dark)');
 
