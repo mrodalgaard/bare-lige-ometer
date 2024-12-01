@@ -1,4 +1,4 @@
-describe('Web App', () => {
+describe("BARE-LIGE-O'METER", () => {
   const title = "BARE-LIGE-O'METER";
 
   it('renders initial web app', () => {
@@ -7,11 +7,11 @@ describe('Web App', () => {
     cy.contains(title).color(['rgb(236, 240, 241)', 'rgb(70, 74, 78)']);
     cy.contains("What is 'bare lige'?");
     cy.meterValue('Percentage meter', 0);
-    cy.url().should('eq', 'http://localhost:5173/');
+    cy.url().should('match', /^http(.+)\/$/);
   });
 
   it('shows text and value from query and click', () => {
-    cy.visit('/?title=TEST&value=50');
+    cy.injectAxeAndVisit('/?title=TEST&value=50');
 
     cy.contains(title).color('rgb(253, 203, 110)');
     cy.meterValue('Percentage meter', 50);
@@ -24,34 +24,40 @@ describe('Web App', () => {
     cy.contains(title).color('rgb(0, 184, 148)');
     cy.meterValue('Percentage meter', 14);
     cy.url().should('include', 'value=14');
+    cy.checkA11y();
 
     cy.get('body').click('center');
     cy.contains(title).color('rgb(253, 203, 110)');
     cy.meterValue('Percentage meter', 50);
     cy.url().should('include', 'value=50');
+    cy.checkA11y();
 
     cy.get('body').click('right');
     cy.contains(title).color('rgb(214, 48, 49)');
     cy.meterValue('Percentage meter', 86);
     cy.url().should('include', 'value=86');
+    cy.checkA11y();
   });
 
   it('show as number', () => {
-    cy.visit('/?title=TEST&value=50&meter=number');
+    cy.injectAxeAndVisit('/?title=TEST&value=50&meter=number');
 
     cy.contains(title).color('rgb(253, 203, 110)');
     cy.contains('50%').color('rgb(253, 203, 110)');
     cy.get('textarea').should('have.value', 'TEST');
+    cy.checkA11y();
 
     cy.get('body').click('left');
     cy.contains(title).color('rgb(0, 184, 148)');
     cy.contains('0%').color('rgb(0, 184, 148)');
     cy.url().should('include', 'value=0');
+    cy.checkA11y();
 
     cy.get('body').click('right');
     cy.contains(title).color('rgb(214, 48, 49)');
     cy.contains('100%').color('rgb(214, 48, 49)');
     cy.url().should('include', 'value=100');
+    cy.checkA11y();
   });
 
   it('can change theme mode', () => {
@@ -82,7 +88,7 @@ describe('Web App', () => {
     cy.contains('copied');
     cy.window().then((win) => {
       win.navigator.clipboard.readText().then((text) => {
-        expect(text).to.eq('http://localhost:5173/');
+        expect(text).to.match(/^http(.+)\/$/);
       });
     });
 
@@ -90,7 +96,7 @@ describe('Web App', () => {
     cy.getAria('Share').focus().click();
     cy.window().then((win) => {
       win.navigator.clipboard.readText().then((text) => {
-        expect(text).to.eq('http://localhost:5173/?title=TEST&value=50');
+        expect(text).to.match(/^http(.+)\/\?title=TEST&value=50$/);
       });
     });
   });

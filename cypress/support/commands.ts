@@ -21,7 +21,7 @@ Cypress.Commands.add(
       return cy
         .wrap(subject)
         .should('have.css', property)
-        .and('satisfy', (value) => color.includes(value));
+        .and('satisfy', (value: string) => color.includes(value));
     }
     return cy.wrap(subject).should('have.css', property, color);
   }
@@ -63,4 +63,17 @@ Cypress.Commands.add('matchMedia', (query, matches = true) => {
     // Return callback which calls all change listeners
     return (event: MediaQueryListEvent) => changeListeners.forEach((listener) => listener(event));
   });
+});
+
+Cypress.Commands.add('injectAxeAndVisit', (url) => {
+  // Remove CSP from index.html to be able to inject axe
+  cy.intercept<unknown, string>(url, (req) => {
+    req.continue((res) => {
+      res.body = res.body.replace("default-src 'self';", '');
+    });
+  }).as('removeCSP');
+
+  // Visit url and inject axe accessibility tester
+  cy.visit(url);
+  cy.injectAxe();
 });
