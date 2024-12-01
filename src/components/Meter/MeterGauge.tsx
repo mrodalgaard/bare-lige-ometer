@@ -1,5 +1,5 @@
 import { ClickEffect } from 'components/ClickEffect';
-import { Gauge } from 'gaugeJS';
+import { Gauge, GaugeOptions } from 'gaugeJS';
 import { ClickPosition } from 'models/ClickPosition';
 import { useEffect, useRef } from 'react';
 import styled, { useTheme } from 'styled-components';
@@ -42,7 +42,7 @@ export const MeterGauge = () => {
   const { meterValue, updateMeterValue, reducedMotion } = useMeter();
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const gaugeRef = useRef<typeof Gauge>(null);
+  const gaugeRef = useRef<Gauge | null>(null);
 
   const onContentClick = (position: ClickPosition) => {
     const angle = calculateGaugeAngle(canvasRef.current?.getBoundingClientRect(), position);
@@ -64,18 +64,18 @@ export const MeterGauge = () => {
       max: Math.ceil((index + 1) * (100 / meter.length)),
     }));
 
-    const options = {
+    const options: GaugeOptions = {
       angle: 0,
-      lineWidth: 0.4,
-      radiusScale: 1,
-      pointer: {
-        length: 0.55,
-        strokeWidth: 0.1,
-        color: primary,
-      },
+      highDpiSupport: true,
       limitMax: false,
       limitMin: true,
-      highDpiSupport: true,
+      lineWidth: 0.4,
+      pointer: {
+        color: primary,
+        length: 0.55,
+        strokeWidth: 0.1,
+      },
+      radiusScale: 1,
       staticZones,
     };
 

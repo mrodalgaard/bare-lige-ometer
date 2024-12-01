@@ -82,7 +82,7 @@ const ClickedLabel = styled.p<{ $clicked?: boolean }>`
           return css`
             animation: 0.3s ease reverse forwards ${fadeDownKeyframes};
           `;
-        default:
+        case undefined:
           return css`
             display: none;
           `;

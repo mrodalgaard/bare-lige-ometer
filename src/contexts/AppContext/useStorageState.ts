@@ -3,10 +3,9 @@ import { z } from 'zod';
 
 type Value<T extends z.ZodType> = z.infer<T>;
 
-const parseJSON = <T extends z.ZodType<unknown>>(json: string | null, zodType: T) => {
+const parseJSON = <T extends z.ZodType<unknown>>(json: string | null, zodType: T): Value<T> | undefined => {
   try {
-    const data = JSON.parse(json ?? '');
-    return zodType.parse(data);
+    return zodType.parse(JSON.parse(json ?? ''));
   } catch {
     return undefined;
   }
@@ -18,7 +17,7 @@ export const useStorageState = <T extends z.ZodType<unknown>>(
   initialState: Value<T> | (() => Value<T>)
 ) => {
   // Rehydrate and validate persisted state from local storage
-  const persistedState = useMemo<Value<T> | undefined>(() => {
+  const persistedState = useMemo(() => {
     return parseJSON(localStorage?.getItem(key), zodType);
   }, [key, zodType]);
 
