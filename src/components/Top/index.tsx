@@ -7,7 +7,7 @@ const Space = styled.span`
   flex: 1;
 `;
 
-const Content = styled.div`
+const Content = styled.header`
   display: flex;
   width: 100%;
 
