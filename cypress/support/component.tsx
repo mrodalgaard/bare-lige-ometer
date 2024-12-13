@@ -14,9 +14,9 @@
 // ***********************************************************
 
 import '@cypress/code-coverage/support';
+import { AppContextProvider } from 'contexts/AppContext';
+import { ThemeContextProvider } from 'contexts/ThemeContext';
 import { mount } from 'cypress/react18';
-import { AppContextProvider } from '../../src/contexts/AppContext';
-import { ThemeContextProvider } from '../../src/contexts/ThemeContext';
 import './commands';
 
 // Custom mount command with context providers
