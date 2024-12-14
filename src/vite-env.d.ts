@@ -17,9 +17,6 @@ declare module 'styled-components' {
       banner: string;
     };
     colors: {
-      success: string;
-      warning: string;
-      error: string;
       primary: string;
       secondary: string;
       background: string;

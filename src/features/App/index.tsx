@@ -14,9 +14,11 @@ export const App = () => {
     <AppContextProvider>
       <ThemeContextProvider>
         <Top />
-        <Title />
-        <Input />
-        {loading ? <Loader /> : <Meter />}
+        <main>
+          <Title />
+          <Input />
+          {loading ? <Loader /> : <Meter />}
+        </main>
       </ThemeContextProvider>
     </AppContextProvider>
   );

@@ -1,9 +1,8 @@
-import { AppContext } from 'contexts/AppContext';
-import { useContext, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTheme } from 'styled-components';
+import { METER_MAX } from 'util/constants';
 
-export const useMeterColor = () => {
-  const { value } = useContext(AppContext);
+export const useMeterColor = (value: number | undefined | null) => {
   const {
     colors: { meter, primary },
   } = useTheme();
@@ -12,7 +11,7 @@ export const useMeterColor = () => {
     if (value === undefined || value === null) {
       return primary;
     }
-    const index = Math.floor(meter.length * (value / 100));
+    const index = Math.floor(meter.length * (value / METER_MAX));
     return meter[Math.min(index, meter.length - 1)];
   }, [value, meter, primary]);
 };

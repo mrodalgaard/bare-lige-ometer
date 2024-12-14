@@ -5,16 +5,20 @@ import { logEvent } from 'util/analytics';
 import { APP_TITLE } from 'util/constants';
 
 export const ShareButton = () => {
-  // Copy to clipboard
+  // Copy url to clipboard
   const addToClipboard = (shareData: ShareData): boolean => {
-    if (shareData.url && navigator?.clipboard?.writeText) {
-      navigator.clipboard.writeText(shareData.url);
-      return true;
+    try {
+      if (shareData.url && navigator?.clipboard?.writeText) {
+        navigator.clipboard.writeText(shareData.url);
+        return true;
+      }
+    } catch (error) {
+      console.log('Clipboard API failed', error);
     }
     return false;
   };
 
-  // Share using Web Share API
+  // Share url using Web Share API
   const webShare = async (shareData: ShareData): Promise<boolean> => {
     if (navigator?.share && navigator?.canShare?.(shareData)) {
       try {
@@ -31,7 +35,6 @@ export const ShareButton = () => {
     return false;
   };
 
-  // Add to clipboard and share using Web Share API
   const exportButtonClick = () => {
     logEvent(AnalyticsEvent.ShareClick);
 

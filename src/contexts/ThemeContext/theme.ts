@@ -36,28 +36,18 @@ const sizes = {
   banner: '80px',
 };
 
-const baseColors = {
-  success: '#00b894',
-  warning: '#fdcb6e',
-  error: '#d63031',
-};
-
-const meter = [baseColors.success, baseColors.warning, baseColors.error];
-
-export const lightColors = {
-  ...baseColors,
+export const lightColors: DefaultTheme['colors'] = {
   primary: '#464a4e',
-  secondary: baseColors.success,
+  secondary: '#00b894',
   background: '#ecf0f1',
-  meter,
+  meter: ['#00b894', '#f9ca24', '#d63031'],
 };
 
-export const darkColors = {
-  ...baseColors,
+export const darkColors: DefaultTheme['colors'] = {
   primary: '#ecf0f1',
-  secondary: baseColors.success,
+  secondary: '#00b894',
   background: '#282C34',
-  meter,
+  meter: ['#00b894', '#fdcb6e', '#e74c3c'],
 };
 
 export const theme: DefaultTheme = {

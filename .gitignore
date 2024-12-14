@@ -14,7 +14,9 @@ dist-ssr
 *.local
 
 # testing
-/coverage
+coverage
+cypress/screenshots
+cypress/downloads
 .lighthouseci
 
 # local env files

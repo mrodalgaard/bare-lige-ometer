@@ -36,7 +36,7 @@ const StyledButton = styled.button`
   // Hover color transition and wiggle animation
   &:hover {
     svg {
-      color: ${({ theme }) => theme.colors.success};
+      color: ${({ theme }) => theme.colors.secondary};
       transition: color 0.5s ease;
 
       @media (prefers-reduced-motion: no-preference) {
@@ -82,7 +82,7 @@ const ClickedLabel = styled.p<{ $clicked?: boolean }>`
           return css`
             animation: 0.3s ease reverse forwards ${fadeDownKeyframes};
           `;
-        default:
+        case undefined:
           return css`
             display: none;
           `;
@@ -96,6 +96,7 @@ export const Button = ({
   debounce = 3000,
   onClick,
   children,
+  ...args
 }: {
   clickedText?: string;
   debounce?: number;
@@ -116,7 +117,7 @@ export const Button = ({
   };
 
   return (
-    <StyledButton onClick={handleClick}>
+    <StyledButton onClick={handleClick} {...args}>
       {children}
       <ClickedLabel $clicked={clicked} key={clicked?.toString()}>
         {clickedText}

@@ -1,6 +1,8 @@
+import { AppContext } from 'contexts/AppContext';
+import { useMeterColor } from 'hooks/useMeterColor';
+import { useContext } from 'react';
 import styled from 'styled-components';
 import { APP_TITLE } from 'util/constants';
-import { useMeterColor } from './useMeterColor';
 
 const Content = styled.div`
   display: flex;
@@ -25,13 +27,15 @@ const HeaderLink = styled.a`
 `;
 
 const SubtitleLink = styled.a`
-  color: ${({ theme }) => theme.colors.secondary};
+  color: ${({ theme }) => theme.colors.primary};
   font-size: clamp(0.5rem, 1vw + 0.2rem, 1rem);
   margin-top: -${({ theme }) => theme.spacing(1)};
 `;
 
 export const Title = () => {
-  const color = useMeterColor();
+  const { value } = useContext(AppContext);
+
+  const color = useMeterColor(value);
 
   return (
     <Content>
