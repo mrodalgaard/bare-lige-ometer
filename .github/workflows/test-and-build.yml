@@ -49,7 +49,7 @@ jobs:
           name: artifact
           path: dist
       - run: yarn install --frozen-lockfile
-      - run: yarn test:prod
+      - run: yarn test:build
 
   lighthouse:
     name: 💡 Lighthouse
