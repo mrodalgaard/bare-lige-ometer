@@ -1,4 +1,4 @@
-# BARE-LIGE-O'METER ![](https://github.com/mrodalgaard/bare-lige-ometer/workflows/CI/badge.svg) ![](https://github.com/mrodalgaard/bare-lige-ometer/workflows/CD/badge.svg)
+# BARE-LIGE-O'METER [![CI Build](https://github.com/mrodalgaard/bare-lige-ometer/workflows/CI/badge.svg)](https://github.com/mrodalgaard/bare-lige-ometer/actions/workflows/ci.yml) [![CD Build](https://github.com/mrodalgaard/bare-lige-ometer/workflows/CD/badge.svg)](https://github.com/mrodalgaard/bare-lige-ometer/actions/workflows/cd.yml)
 
 > Meget få ting er i virkeligheden 'bare lige'...
 
