@@ -9,7 +9,7 @@ const StyledLink = styled.a`
   color: ${({ theme }) => theme.colors.primary};
 
   &:hover svg {
-    fill: ${({ theme }) => theme.colors.success};
+    fill: ${({ theme }) => theme.colors.secondary};
     transition: fill 0.5s ease;
   }
 `;

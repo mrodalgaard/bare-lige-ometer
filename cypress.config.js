@@ -10,15 +10,6 @@ export default defineConfig({
   e2e: {
     baseUrl: "http://localhost:5173",
     setupNodeEvents: (on, config) => {
-      on("before:browser:launch", (browser = {}, launchOptions) => {
-        // Force dark mode and open devtools in Chrome
-        if (browser.family === "chromium") {
-          launchOptions.args.push("--force-dark-mode=true");
-          launchOptions.args.push("--auto-open-devtools-for-tabs");
-        }
-        return launchOptions;
-      });
-
       registerCodeCoverageTasks(on, config);
       return config;
     },

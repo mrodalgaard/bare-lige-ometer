@@ -36,7 +36,7 @@ const StyledButton = styled.button`
   // Hover color transition and wiggle animation
   &:hover {
     svg {
-      color: ${({ theme }) => theme.colors.success};
+      color: ${({ theme }) => theme.colors.secondary};
       transition: color 0.5s ease;
 
       @media (prefers-reduced-motion: no-preference) {

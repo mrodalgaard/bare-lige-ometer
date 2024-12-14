@@ -1,85 +1,105 @@
+import { darkColorsRgb, lightColorsRgb } from '../support/utils';
+
 describe("BARE-LIGE-O'METER", () => {
   const title = "BARE-LIGE-O'METER";
 
   it('renders initial web app', () => {
     cy.visit('/');
 
-    cy.contains(title).color(['rgb(236, 240, 241)', 'rgb(70, 74, 78)']);
+    cy.contains(title).color([darkColorsRgb.primary, lightColorsRgb.primary]);
     cy.contains("What is 'bare lige'?");
     cy.meterValue('Percentage meter', 0);
     cy.url().should('match', /^http(.+)\/$/);
   });
 
   it('shows text and value from query and click', () => {
-    cy.injectAxeAndVisit('/?title=TEST&value=50');
+    [false, true].forEach((darkMode) => {
+      const meterColors = (darkMode ? darkColorsRgb : lightColorsRgb).meter;
 
-    cy.contains(title).color('rgb(253, 203, 110)');
-    cy.meterValue('Percentage meter', 50);
-    cy.get('textarea').should('have.value', 'TEST');
+      cy.injectAxeAndVisit('/?title=TEST&value=50', () => {
+        cy.matchMedia('(prefers-color-scheme: dark)', darkMode);
+      });
 
-    cy.get('textarea').clear().type('NEW TEXT');
-    cy.url().should('include', 'title=NEW+TEXT');
+      cy.contains(title).color(meterColors[1]);
+      cy.meterValue('Percentage meter', 50);
+      cy.get('textarea').should('have.value', 'TEST');
 
-    cy.get('body').click('left');
-    cy.contains(title).color('rgb(0, 184, 148)');
-    cy.meterValue('Percentage meter', 14);
-    cy.url().should('include', 'value=14');
-    cy.checkA11y();
+      cy.get('textarea').clear().type('NEW TEXT');
+      cy.url().should('include', 'title=NEW+TEXT');
 
-    cy.get('body').click('center');
-    cy.contains(title).color('rgb(253, 203, 110)');
-    cy.meterValue('Percentage meter', 50);
-    cy.url().should('include', 'value=50');
-    cy.checkA11y();
+      cy.get('body').click('left');
+      cy.contains(title).color(meterColors[0]);
+      cy.meterValue('Percentage meter', 14);
+      cy.url().should('include', 'value=14');
+      cy.checkA11y();
 
-    cy.get('body').click('right');
-    cy.contains(title).color('rgb(214, 48, 49)');
-    cy.meterValue('Percentage meter', 86);
-    cy.url().should('include', 'value=86');
-    cy.checkA11y();
+      cy.get('body').click('center');
+      cy.contains(title).color(meterColors[1]);
+      cy.meterValue('Percentage meter', 50);
+      cy.url().should('include', 'value=50');
+      cy.checkA11y();
+
+      cy.get('body').click('right');
+      cy.contains(title).color(meterColors[2]);
+      cy.meterValue('Percentage meter', 86);
+      cy.url().should('include', 'value=86');
+      cy.checkA11y();
+    });
   });
 
   it('show as number', () => {
-    cy.injectAxeAndVisit('/?title=TEST&value=50&meter=number');
+    [false, true].forEach((darkMode) => {
+      const meterColors = (darkMode ? darkColorsRgb : lightColorsRgb).meter;
 
-    cy.contains(title).color('rgb(253, 203, 110)');
-    cy.contains('50%').color('rgb(253, 203, 110)');
-    cy.get('textarea').should('have.value', 'TEST');
-    cy.checkA11y();
+      cy.injectAxeAndVisit('/?title=TEST&value=50&meter=number', () => {
+        cy.matchMedia('(prefers-color-scheme: dark)', darkMode);
+      });
 
-    cy.get('body').click('left');
-    cy.contains(title).color('rgb(0, 184, 148)');
-    cy.contains('0%').color('rgb(0, 184, 148)');
-    cy.url().should('include', 'value=0');
-    cy.checkA11y();
+      cy.contains(title).color(meterColors[1]);
+      cy.contains('50%').color(meterColors[1]);
+      cy.get('textarea').should('have.value', 'TEST');
+      cy.checkA11y({
+        // Color contrast is not good enough for yellow number in light mode
+        exclude: [darkMode ? '' : '.meter'],
+      });
 
-    cy.get('body').click('right');
-    cy.contains(title).color('rgb(214, 48, 49)');
-    cy.contains('100%').color('rgb(214, 48, 49)');
-    cy.url().should('include', 'value=100');
-    cy.checkA11y();
+      cy.get('body').click('left');
+      cy.contains(title).color(meterColors[0]);
+      cy.contains('0%').color(meterColors[0]);
+      cy.url().should('include', 'value=0');
+      cy.checkA11y({
+        // Color contrast is not good enough for green number in light mode
+        exclude: [darkMode ? '' : '.meter'],
+      });
+
+      cy.get('body').click('right');
+      cy.contains(title).color(meterColors[2]);
+      cy.contains('100%').color(meterColors[2]);
+      cy.url().should('include', 'value=100');
+      cy.checkA11y();
+    });
   });
 
   it('can change theme mode', () => {
     cy.visit('/');
     cy.matchMedia('(prefers-color-scheme: dark)');
 
-    cy.contains(title).color('rgb(236, 240, 241)');
-    cy.get('body').color('rgb(40, 44, 52)', 'background-color');
+    cy.contains(title).color(darkColorsRgb.primary);
+    cy.get('body').color(darkColorsRgb.background, 'background-color');
 
     cy.getAria('Change mode').click();
     cy.contains('light');
-    cy.contains(title).color('rgb(70, 74, 78)');
-    cy.get('body').color('rgb(236, 240, 241)', 'background-color');
+    cy.contains(title).color(lightColorsRgb.primary);
+    cy.get('body').color(lightColorsRgb.background, 'background-color');
 
     cy.getAria('Change mode').click();
     cy.contains('dark');
-    cy.get('body').color('rgb(40, 44, 52)', 'background-color');
+    cy.get('body').color(darkColorsRgb.background, 'background-color');
 
     cy.getAria('Change mode').click();
     cy.contains('system');
-    cy.contains(title).color('rgb(236, 240, 241)');
-    cy.get('body').color('rgb(40, 44, 52)', 'background-color');
+    cy.contains(title).color(darkColorsRgb.primary);
+    cy.get('body').color(darkColorsRgb.background, 'background-color');
   });
 
   it('can copy and share', () => {

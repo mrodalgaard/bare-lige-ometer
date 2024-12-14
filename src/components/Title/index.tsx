@@ -27,7 +27,7 @@ const HeaderLink = styled.a`
 `;
 
 const SubtitleLink = styled.a`
-  color: ${({ theme }) => theme.colors.secondary};
+  color: ${({ theme }) => theme.colors.primary};
   font-size: clamp(0.5rem, 1vw + 0.2rem, 1rem);
   margin-top: -${({ theme }) => theme.spacing(1)};
 `;

@@ -43,6 +43,7 @@ export const MeterNumber = () => {
         onEnd={() => setPrevMeterValue(meterValue)}
         suffix="%"
         color={color}
+        className="meter"
       />
     </ClickEffect>
   );
