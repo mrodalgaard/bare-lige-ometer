@@ -28,7 +28,7 @@ jobs:
           clean: true
 
   test_prod:
-    name: 🧪 Test after deploy
+    name: 🧑‍🔬 Test after deploy
     needs: [deploy]
     runs-on: ubuntu-latest
     steps:

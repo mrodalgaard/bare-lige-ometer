@@ -38,6 +38,19 @@ jobs:
         with:
           path: dist
 
+  test_build:
+    name: 🔬 Test after build
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: artifact
+          path: dist
+      - run: yarn install --frozen-lockfile
+      - run: yarn test:prod
+
   lighthouse:
     name: 💡 Lighthouse
     needs: [build]
