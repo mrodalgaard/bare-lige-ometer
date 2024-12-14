@@ -1,4 +1,4 @@
-import { darkColorsRgb } from '../../../cypress/support/utils';
+import { darkColorsRgb, lightColorsRgb } from '../../../cypress/support/utils';
 import { MeterGauge } from './MeterGauge';
 import { MeterNumber } from './MeterNumber';
 
@@ -15,13 +15,12 @@ describe('Meter', () => {
   it('renders and updates number', () => {
     cy.viewport(550, 200);
     cy.mount(<MeterNumber />);
-    cy.matchMedia('(prefers-color-scheme: dark)', false);
 
     cy.get('body').click('topLeft');
-    cy.contains('0%').should('have.css', 'color', darkColorsRgb.meter[0]);
+    cy.contains('0%').color([lightColorsRgb.meter[0], darkColorsRgb.meter[0]]);
     cy.get('body').click('center');
-    cy.contains('50%').should('have.css', 'color', darkColorsRgb.meter[1]);
+    cy.contains('50%').color([lightColorsRgb.meter[1], darkColorsRgb.meter[1]]);
     cy.get('body').click('bottomRight');
-    cy.contains('100%').should('have.css', 'color', darkColorsRgb.meter[2]);
+    cy.contains('100%').color([lightColorsRgb.meter[2], darkColorsRgb.meter[2]]);
   });
 });
