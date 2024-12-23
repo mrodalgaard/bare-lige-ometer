@@ -31,7 +31,7 @@ export default defineConfig(({ command }) => {
   if (command === 'serve') {
     return {
       ...config,
-      plugins: [...(config.plugins ?? []), istanbul({ include: 'src/*', cypress: true })],
+      plugins: [...(config.plugins ?? []), istanbul({ include: 'src/*' })],
       build: {
         ...config.build,
         sourcemap: true,

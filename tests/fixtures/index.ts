@@ -1,6 +1,7 @@
 import { mergeExpects } from '@playwright/test';
 import { toHaveMeterValueExpect } from './toHaveMeterValueExpect';
 
-export { test } from '@playwright/test';
+export { coverageTest as test } from './coverageTest';
 
+// export const test = mergeTests(coverageTest);
 export const expect = mergeExpects(toHaveMeterValueExpect);

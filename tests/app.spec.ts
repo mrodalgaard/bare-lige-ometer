@@ -1,9 +1,14 @@
 import { AxeBuilder } from '@axe-core/playwright';
+import { DefaultTheme } from 'styled-components';
 import { expect, test } from './fixtures';
 import { darkColorsRgb, lightColorsRgb } from './utils/colors';
-import { stubMatchMedia } from './utils/stubMatchMedia';
 
 const title = "BARE-LIGE-O'METER";
+
+const lightOrDark: { colorScheme: 'light' | 'dark'; colors: DefaultTheme['colors'] }[] = [
+  { colorScheme: 'light', colors: lightColorsRgb },
+  { colorScheme: 'dark', colors: darkColorsRgb },
+];
 
 test('renders initial web app', async ({ page, baseURL }) => {
   await page.goto('/');
@@ -14,12 +19,9 @@ test('renders initial web app', async ({ page, baseURL }) => {
   await expect(page).toHaveURL(String(baseURL));
 });
 
-[
-  { mode: 'light', colors: lightColorsRgb },
-  { mode: 'dark', colors: darkColorsRgb },
-].forEach(({ mode, colors }) => {
-  test(`shows text and value from query and click in ${mode} mode`, async ({ page, context }) => {
-    await stubMatchMedia(page, '(prefers-color-scheme: dark)', mode === 'dark');
+lightOrDark.forEach(({ colorScheme, colors }) => {
+  test(`shows text and value from query and click in ${colorScheme} mode`, async ({ page, context }) => {
+    await page.emulateMedia({ colorScheme });
 
     await page.goto('/?title=TEST&value=50');
 
@@ -28,7 +30,7 @@ test('renders initial web app', async ({ page, baseURL }) => {
     await expect(page.locator('textarea')).toHaveText('TEST');
 
     await page.screenshot({
-      path: `test-results/sceenshot-gauge-${context.browser()?.browserType().name()}-${mode}.png`,
+      path: `test-results/sceenshot-gauge-${context.browser()?.browserType().name()}-${colorScheme}.png`,
     });
 
     await page.fill('textarea', 'NEW TEXT');
@@ -56,12 +58,9 @@ test('renders initial web app', async ({ page, baseURL }) => {
   });
 });
 
-[
-  { mode: 'light', colors: lightColorsRgb },
-  { mode: 'dark', colors: darkColorsRgb },
-].forEach(({ mode, colors }) => {
-  test(`shows as number in ${mode} mode`, async ({ page, context }) => {
-    await stubMatchMedia(page, '(prefers-color-scheme: dark)', mode === 'dark');
+lightOrDark.forEach(({ colorScheme, colors }) => {
+  test(`shows as number in ${colorScheme} mode`, async ({ page, context }) => {
+    await page.emulateMedia({ colorScheme });
 
     await page.goto('/?title=TEST&value=50&meter=number');
 
@@ -70,7 +69,7 @@ test('renders initial web app', async ({ page, baseURL }) => {
     await expect(page.locator('textarea')).toHaveText('TEST');
 
     await page.screenshot({
-      path: `test-results/sceenshot-meter-${context.browser()?.browserType().name()}-${mode}.png`,
+      path: `test-results/sceenshot-meter-${context.browser()?.browserType().name()}-${colorScheme}.png`,
     });
 
     const meterBoxWidth = (await page.getByText('50%').boundingBox())?.width ?? 0;
@@ -96,7 +95,7 @@ test('renders initial web app', async ({ page, baseURL }) => {
 });
 
 test('can change theme mode', async ({ page }) => {
-  await stubMatchMedia(page, '(prefers-color-scheme: dark)', true);
+  await page.emulateMedia({ colorScheme: 'dark' });
 
   await page.goto('/');
 
