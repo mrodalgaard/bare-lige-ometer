@@ -18,6 +18,10 @@ coverage
 cypress/screenshots
 cypress/downloads
 .lighthouseci
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
 
 # local env files
 .env*.local

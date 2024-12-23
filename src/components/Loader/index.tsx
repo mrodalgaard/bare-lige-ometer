@@ -58,7 +58,7 @@ const LoaderGauge = styled.div`
 export const Loader = () => {
   return (
     <Container>
-      <LoaderGauge data-test="loader" />
+      <LoaderGauge data-testid="loader" />
     </Container>
   );
 };

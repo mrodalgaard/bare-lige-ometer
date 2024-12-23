@@ -18,6 +18,12 @@ export const ModeButton = () => {
       const y = event.clientY;
       const endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
 
+      // Fallback for browsers that don't support view transitions
+      if (!document.startViewTransition) {
+        toggleMode();
+        return;
+      }
+
       // Start the view transition with clip path animation
       const transition = document.startViewTransition(toggleMode);
       transition.ready.then(() => {
