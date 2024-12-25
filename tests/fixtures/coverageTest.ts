@@ -7,11 +7,7 @@ interface CustomWindow extends Window {
   collectIstanbulCoverage?: (coverageJSON: string) => void;
 }
 
-const istanbulTempDir = path.join(process.cwd(), 'coverage/.nyc_output');
-
-function generateUUID() {
-  return crypto.randomBytes(16).toString('hex');
-}
+const dir = path.join(process.cwd(), 'coverage/.nyc_output');
 
 export const coverageTest = test.extend({
   context: async ({ context }, use) => {
@@ -20,9 +16,13 @@ export const coverageTest = test.extend({
         (window as CustomWindow).collectIstanbulCoverage?.(JSON.stringify(window.__coverage__))
       )
     );
-    await fs.promises.mkdir(istanbulTempDir, { recursive: true });
+
+    await fs.promises.mkdir(dir, { recursive: true });
     await context.exposeFunction('collectIstanbulCoverage', (coverageJSON: string) => {
-      if (coverageJSON) fs.writeFileSync(path.join(istanbulTempDir, `coverage_${generateUUID()}.json`), coverageJSON);
+      const fileName = `coverage_${crypto.randomBytes(16).toString('hex')}.json`;
+      if (coverageJSON) {
+        fs.writeFileSync(path.join(dir, fileName), coverageJSON);
+      }
     });
 
     for (const page of context.pages()) {
