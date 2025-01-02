@@ -1,18 +1,10 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices, PlaywrightTestConfig } from '@playwright/test';
 import { CoverageReport } from 'monocart-coverage-reports';
-
-// Fix source path for e2e test coverage
-const sourcePath = (filePath: string, info: { distFile?: string }) =>
-  !filePath.includes('/') && info.distFile ? info.distFile.replace('localhost-3000/', '') : filePath;
-
-// Extract script name from npm command
-const scriptName = JSON.parse(process.env.npm_config_argv ?? '{"original": []}').original.at(0);
-const noMonocartReport = ['test:build', 'test:prod'].includes(scriptName);
 
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
+const config: PlaywrightTestConfig = {
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -23,47 +15,11 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: [
-    ['html', { outputFolder: 'output/merged/e2e' }],
-    ['list'],
-    [
-      noMonocartReport ? 'null' : 'monocart-reporter',
-      {
-        name: 'E2E Test Report',
-        outputFile: 'output/e2e/index.html',
-        coverage: {
-          entryFilter: {
-            '**/node_modules/**': false,
-            'reset.css': false,
-            '**/src/**': true,
-          },
-          sourceFilter: {
-            '**/node_modules/**': false,
-            '**/**': true,
-          },
-          sourcePath,
-          reports: ['raw', 'v8'],
-
-          // Merge coverage reports for e2e and component when finished
-          onEnd: () =>
-            new CoverageReport({
-              name: 'Coverage Report',
-              inputDir: ['./output/component/coverage/raw', './output/e2e/coverage/raw'],
-              outputDir: './output/merged/coverage',
-              sourceFilter: {
-                'src/**': true,
-              },
-              sourcePath,
-              reports: [['console-details'], ['v8']],
-            }).generate(),
-        },
-      },
-    ],
-  ],
+  reporter: [['list'], ['html', { outputFolder: 'output/merged/e2e' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: scriptName === 'test:prod' ? 'https://barelige.dk' : 'http://localhost:3000',
+    baseURL: process.env.BASEURL ?? 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -111,11 +67,59 @@ export default defineConfig({
     //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
     // },
   ],
+};
 
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://127.0.0.1:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
-});
+// Add monocart reporter for coverage
+if (process.env.COVERAGE && Array.isArray(config.reporter)) {
+  // Fix source path for e2e test coverage
+  const sourcePath = (filePath: string, info: { distFile?: string }) =>
+    !filePath.includes('/') && info.distFile ? info.distFile.replace('localhost-3000/', '') : filePath;
+
+  config.reporter = [
+    ...config.reporter,
+    [
+      'monocart-reporter',
+      {
+        name: 'E2E Test Report',
+        outputFile: 'output/e2e/index.html',
+        coverage: {
+          entryFilter: {
+            '**/node_modules/**': false,
+            'reset.css': false,
+            '**/src/**': true,
+          },
+          sourceFilter: {
+            '**/node_modules/**': false,
+            '**/**': true,
+          },
+          sourcePath,
+          reports: ['raw', 'v8'],
+
+          // Merge coverage reports for e2e and component when finished
+          onEnd: () =>
+            new CoverageReport({
+              name: 'Coverage Report',
+              inputDir: ['./output/component/coverage/raw', './output/e2e/coverage/raw'],
+              outputDir: './output/merged/coverage',
+              sourceFilter: {
+                'src/**': true,
+              },
+              sourcePath,
+              reports: [['console-details'], ['v8']],
+            }).generate(),
+        },
+      },
+    ],
+  ];
+}
+
+// Run your local dev server before starting the test
+if (process.env.SERVE) {
+  config.webServer = {
+    command: `yarn ${process.env.SERVE}`,
+    url: 'http://localhost:3000',
+    reuseExistingServer: !process.env.CI,
+  };
+}
+
+export default defineConfig(config);

@@ -8,7 +8,7 @@ export const testCoverage = test.extend<{
   autoTestFixture: [
     async ({ page }: { page: Page }, use) => {
       // Setup coverage collection (chromium only)
-      if (test.info().project.name === 'chromium') {
+      if (process.env.COVERAGE && test.info().project.name === 'chromium') {
         await page.coverage.startJSCoverage({
           resetOnNavigation: false,
         });
@@ -17,7 +17,7 @@ export const testCoverage = test.extend<{
       await use('autoTestFixture');
 
       // Teardown coverage collection (chromium only)
-      if (test.info().project.name === 'chromium') {
+      if (process.env.COVERAGE && test.info().project.name === 'chromium') {
         const jsCoverage = await page.coverage.stopJSCoverage();
         await addCoverageReport(jsCoverage, test.info());
       }
