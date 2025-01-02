@@ -12,6 +12,7 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn playwright install --with-deps
       - run: yarn lint
+      - run: mkdir -p output/merged/
       - run: yarn test:component
       - run: mv playwright-report/index.html output/merged/playwright-component.html
       - run: yarn test:e2e
