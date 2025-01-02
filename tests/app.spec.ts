@@ -20,7 +20,7 @@ test('renders initial web app', async ({ page, baseURL }) => {
 });
 
 lightOrDark.forEach(({ colorScheme, colors }) => {
-  test(`shows text and value from query and click in ${colorScheme} mode`, async ({ page, context }) => {
+  test(`shows text and value from query and click in ${colorScheme} mode`, async ({ page }) => {
     await page.emulateMedia({ colorScheme });
 
     await page.goto('/?title=TEST&value=50');
@@ -30,7 +30,7 @@ lightOrDark.forEach(({ colorScheme, colors }) => {
     await expect(page.locator('textarea')).toHaveText('TEST');
 
     await page.screenshot({
-      path: `test-results/sceenshot-gauge-${context.browser()?.browserType().name()}-${colorScheme}.png`,
+      path: `test-results/sceenshot-gauge-${test.info().project.name}-${colorScheme}.png`,
     });
 
     await page.fill('textarea', 'NEW TEXT');
@@ -59,7 +59,7 @@ lightOrDark.forEach(({ colorScheme, colors }) => {
 });
 
 lightOrDark.forEach(({ colorScheme, colors }) => {
-  test(`shows as number in ${colorScheme} mode`, async ({ page, context }) => {
+  test(`shows as number in ${colorScheme} mode`, async ({ page }) => {
     await page.emulateMedia({ colorScheme });
 
     await page.goto('/?title=TEST&value=50&meter=number');
@@ -69,7 +69,7 @@ lightOrDark.forEach(({ colorScheme, colors }) => {
     await expect(page.locator('textarea')).toHaveText('TEST');
 
     await page.screenshot({
-      path: `test-results/sceenshot-meter-${context.browser()?.browserType().name()}-${colorScheme}.png`,
+      path: `test-results/sceenshot-meter-${test.info().project.name}-${colorScheme}.png`,
     });
 
     const meterBoxWidth = (await page.getByText('50%').boundingBox())?.width ?? 0;

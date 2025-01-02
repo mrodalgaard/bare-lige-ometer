@@ -22,5 +22,5 @@
 
     "types": ["./src/vite-env.d.ts"]
   },
-  "include": ["tests", "vite.config.ts", "playwright.config.ts"]
+  "include": ["tests", "*.config.ts"]
 }

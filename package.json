@@ -18,8 +18,8 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "test": "start-server-and-test dev localhost:3000 'playwright test --ui'",
-    "test:component": "cypress run --component",
-    "test:e2e": "start-server-and-test dev localhost:3000 'playwright test' && nyc report",
+    "test:component": "playwright test -c playwright-ct.config.ts",
+    "test:e2e": "start-server-and-test dev localhost:3000 'playwright test'",
     "test:build": "start-server-and-test preview localhost:3000 'playwright test'",
     "test:prod": "CUSTOM_BASE_URL=https://barelige.dk playwright test"
   },
@@ -40,6 +40,7 @@
     "@axe-core/playwright": "^4.10.1",
     "@cypress/code-coverage": "^3.13.4",
     "@eslint/js": "^9.13.0",
+    "@playwright/experimental-ct-react": "^1.49.1",
     "@playwright/test": "^1.49.1",
     "@types/node": "^22.10.2",
     "@types/react": "^18.3.1",
@@ -52,11 +53,11 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
     "globals": "^15.11.0",
+    "monocart-reporter": "^2.9.12",
     "start-server-and-test": "^2.0.8",
     "typescript": "~5.6.2",
     "typescript-eslint": "^8.11.0",
     "vite": "^5.4.10",
-    "vite-plugin-istanbul": "^6.0.2",
     "vite-tsconfig-paths": "^5.0.1"
   }
 }

@@ -14,14 +14,14 @@ dist-ssr
 *.local
 
 # testing
-coverage
 cypress/screenshots
 cypress/downloads
 .lighthouseci
 /test-results/
 /playwright-report/
 /blob-report/
-/playwright/.cache/
+/output/
+.cache
 
 # local env files
 .env*.local

@@ -5,7 +5,7 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 export default tseslint.config(
-  { ignores: ["dist", "coverage"] },
+  { ignores: ["dist", "output", "**/.cache"] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommendedTypeChecked],
     files: ["**/*.{ts,tsx}"],
@@ -38,6 +38,7 @@ export default tseslint.config(
           requireDefaultForNonUnion: true,
         },
       ],
+      "@typescript-eslint/unbound-method": "off",
     },
   }
 );

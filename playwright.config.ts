@@ -1,12 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
+import { CoverageReport } from 'monocart-coverage-reports';
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+// Fix source path for e2e test coverage
+const sourcePath = (filePath: string, info: { distFile?: string }) =>
+  !filePath.includes('/') && info.distFile ? info.distFile.replace('localhost-3000/', '') : filePath;
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -22,7 +19,42 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [
+    ['html'],
+    [
+      'monocart-reporter',
+      {
+        name: 'Playwright E2E Report',
+        outputFile: 'output/e2e/index.html',
+        coverage: {
+          entryFilter: {
+            '**/node_modules/**': false,
+            'reset.css': false,
+            '**/src/**': true,
+          },
+          sourceFilter: {
+            '**/node_modules/**': false,
+            '**/**': true,
+          },
+          sourcePath,
+          reports: ['raw', 'v8'],
+
+          // Merge coverage reports for e2e and component when finished
+          onEnd: () =>
+            new CoverageReport({
+              name: 'Coverage Report',
+              inputDir: ['./output/component/coverage/raw', './output/e2e/coverage/raw'],
+              outputDir: './output/merged/coverage',
+              sourceFilter: {
+                'src/**': true,
+              },
+              sourcePath,
+              reports: [['console-details'], ['v8']],
+            }).generate(),
+        },
+      },
+    ],
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */

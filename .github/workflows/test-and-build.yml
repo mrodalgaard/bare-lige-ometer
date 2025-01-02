@@ -12,19 +12,17 @@ jobs:
       - run: yarn install --frozen-lockfile
       - run: yarn playwright install --with-deps
       - run: yarn lint
-      # - run: yarn test:component
+      - run: yarn test:component
+      - run: mv playwright-report/index.html output/merged/playwright-component.html
       - run: yarn test:e2e
-      - run: mv test-results/*.png playwright-report/
-      - uses: irongut/CodeCoverageSummary@v1.3.0
-        with:
-          filename: coverage/cobertura-coverage.xml
-          badge: true
-          format: markdown
+      - run: mv playwright-report/index.html output/merged/playwright-e2e.html
+      - name: Move playwright screenshots
+        run: mv test-results/*.png output/merged/
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
-          name: playwright-report
-          path: playwright-report/
+          name: test-reports
+          path: output/merged
 
   build:
     name: 🛠️ Build
