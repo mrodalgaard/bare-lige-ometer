@@ -5,6 +5,10 @@ import { CoverageReport } from 'monocart-coverage-reports';
 const sourcePath = (filePath: string, info: { distFile?: string }) =>
   !filePath.includes('/') && info.distFile ? info.distFile.replace('localhost-3000/', '') : filePath;
 
+// Extract script name from npm command
+const scriptName = JSON.parse(process.env.npm_config_argv ?? '{"original": []}').original.at(0);
+const noMonocartReport = ['test:build', 'test:prod'].includes(scriptName);
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -20,11 +24,12 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ['html'],
+    ['html', { outputFolder: 'output/merged/e2e' }],
+    ['list'],
     [
-      'monocart-reporter',
+      noMonocartReport ? 'null' : 'monocart-reporter',
       {
-        name: 'Playwright E2E Report',
+        name: 'E2E Test Report',
         outputFile: 'output/e2e/index.html',
         coverage: {
           entryFilter: {
@@ -58,7 +63,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.CUSTOM_BASE_URL ?? 'http://localhost:3000',
+    baseURL: scriptName === 'test:prod' ? 'https://barelige.dk' : 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',

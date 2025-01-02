@@ -21,7 +21,7 @@
     "test:component": "playwright test -c playwright-ct.config.ts",
     "test:e2e": "start-server-and-test dev localhost:3000 'playwright test'",
     "test:build": "start-server-and-test preview localhost:3000 'playwright test'",
-    "test:prod": "CUSTOM_BASE_URL=https://barelige.dk playwright test"
+    "test:prod": "playwright test"
   },
   "dependencies": {
     "firebase": "^10.14.0",

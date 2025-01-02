@@ -22,12 +22,16 @@ test('renders initial web app', async ({ page, baseURL }) => {
 lightOrDark.forEach(({ colorScheme, colors }) => {
   test(`shows text and value from query and click in ${colorScheme} mode`, async ({ page }) => {
     await page.emulateMedia({ colorScheme });
+    await page.clock.install();
 
     await page.goto('/?title=TEST&value=50');
 
     await expect(page.getByText(title)).toHaveCSS('color', colors.meter[1]);
     await expect(page).toHaveMeterValue(50);
     await expect(page.locator('textarea')).toHaveText('TEST');
+
+    // Fast forward to animation end before taking screenshot
+    await page.clock.runFor(1000);
 
     await page.screenshot({
       path: `test-results/sceenshot-gauge-${test.info().project.name}-${colorScheme}.png`,

@@ -18,7 +18,6 @@ cypress/screenshots
 cypress/downloads
 .lighthouseci
 /test-results/
-/playwright-report/
 /blob-report/
 /output/
 .cache

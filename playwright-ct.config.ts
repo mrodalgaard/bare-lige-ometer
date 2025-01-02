@@ -24,11 +24,12 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ['html'],
+    ['html', { outputFolder: 'output/merged/component' }],
+    ['list'],
     [
       'monocart-reporter',
       {
-        name: 'Playwright Component Report',
+        name: 'Component Test Report',
         outputFile: 'output/component/index.html',
         coverage: {
           entryFilter: {
@@ -39,7 +40,6 @@ export default defineConfig({
             '**/node_modules/**': false,
             '**/**': true,
           },
-          lcov: false,
           reports: ['raw', 'v8'],
         },
       },

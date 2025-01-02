@@ -16,7 +16,7 @@ export default defineConfig(() => ({
   },
   server: {
     watch: {
-      ignored: ['**/output/**', '**/playwright-report/**'],
+      ignored: ['**/output/**'],
     },
     port: 3000,
   },
