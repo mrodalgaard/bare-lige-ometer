@@ -14,8 +14,6 @@ dist-ssr
 *.local
 
 # testing
-cypress/screenshots
-cypress/downloads
 .lighthouseci
 /test-results/
 /blob-report/
