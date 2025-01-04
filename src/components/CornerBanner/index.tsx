@@ -1,7 +1,9 @@
 import { AnalyticsEvent } from 'models/AnalyticsEvent';
 import styled, { useTheme } from 'styled-components';
 import { logEvent } from 'util/analytics';
-import { APP_VERSION, GITHUB_LINK } from 'util/constants';
+
+const APP_VERSION = __APP_VERSION__;
+const GITHUB_LINK = __APP_GIT__;
 
 const StyledLink = styled.a`
   display: flex;

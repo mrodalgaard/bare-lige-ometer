@@ -31,17 +31,22 @@ export const useStorageState = <T extends z.ZodType<unknown>>(
 
   useEffect(() => {
     const handleStorage = (event: StorageEvent) => {
+      // Handle storage events for key
       if (event.key === key) {
         const newState = parseJSON(event.newValue, zodType);
         if (newState !== undefined && newState !== state) {
           setState(newState);
         }
       }
+      // localstorage.clear() event
+      else if (event.key === null && event.newValue === null) {
+        setState(initialState);
+      }
     };
 
     addEventListener('storage', handleStorage);
     return () => removeEventListener('storage', handleStorage);
-  }, [key, zodType, state]);
+  }, [key, zodType, state, initialState]);
 
   return [state, setState] as const;
 };

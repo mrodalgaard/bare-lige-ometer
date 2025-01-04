@@ -26,7 +26,7 @@ export default tseslint.config(
       "no-restricted-imports": [
         "error",
         {
-          patterns: ["components/*/*", "contexts/*/*", "features/*/*"],
+          patterns: ["components/*/*", "contexts/*/*", "features/*/*", "tests/*/*"],
         },
       ],
       "@typescript-eslint/no-floating-promises": "off",

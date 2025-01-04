@@ -17,6 +17,7 @@ const firebaseConfig: FirebaseOptions = {
 export const firebase = initializeApp(firebaseConfig);
 
 export const monitorPerformance = async () => {
+  // v8 ignore next 3
   if (!isDev && (await isSupported())) {
     getPerformance(firebase);
   }

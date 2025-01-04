@@ -6,12 +6,14 @@ import { isDev } from './isDev';
 type Parameters = { [key: string]: unknown };
 
 export const logEvent = async (event: AnalyticsEvent, parameters?: Parameters) => {
+  // v8 ignore next 3
   if (!isDev && (await isSupported())) {
     firebaseLogEvent(getAnalytics(firebase), event, parameters);
   }
 };
 
 export const setUserProperty = async (name: AnalyticsEvent, value: unknown) => {
+  // v8 ignore next 3
   if (!isDev && (await isSupported())) {
     setUserProperties(getAnalytics(firebase), { [name]: value });
   }

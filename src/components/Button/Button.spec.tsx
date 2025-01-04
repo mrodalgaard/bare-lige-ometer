@@ -1,27 +1,18 @@
-import { ThemeContextProvider } from 'contexts/ThemeContext';
+import { expect, test } from 'tests/component';
 import { Button } from '.';
-import { expect, test } from '../../../tests/component/fixtures';
 
-test('renders and clicks', async ({ mount }) => {
+test('renders and clicks', async ({ mountWithThemeProvider }) => {
   let clicked = false;
 
-  const component = await mount(
-    <ThemeContextProvider>
-      <Button onClick={() => (clicked = true)}>TEST</Button>
-    </ThemeContextProvider>
-  );
+  const component = await mountWithThemeProvider(<Button onClick={() => (clicked = true)}>TEST</Button>);
 
   await expect(component).toContainText('TEST');
   await component.click();
   expect(clicked).toBe(true);
 });
 
-test('shows clicked text', async ({ mount, page }) => {
-  const component = await mount(
-    <ThemeContextProvider>
-      <Button clickedText="CLICKED">TEST</Button>
-    </ThemeContextProvider>
-  );
+test('shows clicked text', async ({ mountWithThemeProvider, page }) => {
+  const component = await mountWithThemeProvider(<Button clickedText="CLICKED">TEST</Button>);
 
   await page.clock.install();
 

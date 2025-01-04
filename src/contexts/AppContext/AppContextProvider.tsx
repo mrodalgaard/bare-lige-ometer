@@ -30,7 +30,7 @@ const AppContextProviderWithQueryParam = ({ children }: { children: ReactNode })
   );
 
   // Check if the user prefers reduced motion
-  const reducedMotion = !useMatchMedia('(prefers-reduced-motion: no-preference)', defaultContext.reducedMotion);
+  const reducedMotion = !useMatchMedia('(prefers-reduced-motion: no-preference)', !defaultContext.reducedMotion);
 
   // Log mode changes to analytics
   useEffect(() => {

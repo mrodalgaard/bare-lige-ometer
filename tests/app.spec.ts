@@ -122,13 +122,13 @@ test('can change theme mode', async ({ page }) => {
   await expect(page.locator('body')).toHaveCSS('background-color', darkColorsRgb.background);
 });
 
-test('can copy and share', async ({ page, baseURL, context }) => {
+test('can copy and share', async ({ page, baseURL, browserName }) => {
   for (const path of ['/', '/?title=123', '/?title=TEST&value=50']) {
     await page.goto(path);
 
     await page.getByLabel('Share').click();
     await expect(page.getByText('copied')).toBeVisible();
-    if (context.browser()?.browserType().name() !== 'webkit') {
+    if (browserName !== 'webkit') {
       expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(`${baseURL}${path}`);
     }
   }

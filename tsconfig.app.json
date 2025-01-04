@@ -22,7 +22,10 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
 
-    "baseUrl": "./src"
+    "baseUrl": "./src",
+    "paths": {
+      "tests/*": ["../tests/*"]
+    }
   },
-  "include": ["src", "cypress", "cypress-axe"]
+  "include": ["src", "tests"]
 }

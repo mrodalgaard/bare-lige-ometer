@@ -83,14 +83,19 @@ if (process.env.COVERAGE && Array.isArray(config.reporter)) {
         name: 'E2E Test Report',
         outputFile: 'output/e2e/index.html',
         coverage: {
+          all: {
+            dir: ['./src'],
+            filter: {
+              '**/reset.css': false,
+              '**/*.d.ts': false,
+              '**/*.spec.tsx': false,
+              '**/*.story.tsx': false,
+              '**/*': true,
+            },
+          },
           entryFilter: {
-            '**/node_modules/**': false,
             'reset.css': false,
             '**/src/**': true,
-          },
-          sourceFilter: {
-            '**/node_modules/**': false,
-            '**/**': true,
           },
           sourcePath,
           reports: ['raw', 'v8'],
