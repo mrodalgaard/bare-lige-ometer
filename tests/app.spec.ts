@@ -17,6 +17,9 @@ test('renders initial web app', async ({ page, baseURL }) => {
   await expect(page.locator('h1')).toHaveText(title);
   await expect(page).toHaveMeterValue(0);
   await expect(page).toHaveURL(String(baseURL));
+
+  await page.getByLabel('Github').click();
+  await expect(page).toHaveURL(/https:\/\/github.com\/+/);
 });
 
 lightOrDark.forEach(({ colorScheme, colors }) => {

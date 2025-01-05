@@ -32,12 +32,10 @@ export default defineConfig({
         name: 'Component Test Report',
         outputFile: 'output/component/index.html',
         coverage: {
-          entryFilter: {
-            '**/node_modules/**': false,
-            '**/**': true,
-          },
+          entryFilter: ({ url }: { url: string }) => url.includes('assets'),
           sourceFilter: {
             '**/node_modules/**': false,
+            '**/*.story.tsx': false,
             '**/**': true,
           },
           reports: ['raw', 'v8'],
