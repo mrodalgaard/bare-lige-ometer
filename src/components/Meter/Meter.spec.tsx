@@ -20,8 +20,6 @@ test('renders and updates meter gauge', async ({ mountWithThemeProvider }) => {
 });
 
 test('renders and updates meter number', async ({ mountWithThemeProvider }) => {
-  test.slow();
-
   const component = await mountWithThemeProvider(<MeterNumber />);
 
   await expect(component.getByText('%')).toHaveText('0%');

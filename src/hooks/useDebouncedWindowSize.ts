@@ -17,7 +17,7 @@ export const useDebouncedWindowSize = (debounce = 250) => {
   useLayoutEffect(() => {
     const updateSize = () => {
       setLoading(true);
-      debouncedLoading.callback([innerWidth, innerHeight]);
+      debouncedLoading([innerWidth, innerHeight]);
     };
 
     addEventListener('resize', updateSize);

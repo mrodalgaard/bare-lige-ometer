@@ -62,7 +62,7 @@ export const Input = () => {
 
   // Use debounce to update title
   useEffect(() => {
-    debounceParamTitle.callback(text);
+    debounceParamTitle(text);
     return debounceParamTitle.cancel;
   }, [text, debounceParamTitle]);
 

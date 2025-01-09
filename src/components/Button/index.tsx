@@ -112,7 +112,7 @@ export const Button = ({
   // Click callback and debounced click state
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     setClicked(true);
-    debouncedClick.callback();
+    debouncedClick();
     onClick?.(event);
   };
 
