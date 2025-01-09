@@ -1,6 +1,7 @@
 import { MountOptions, MountResult, test } from '@playwright/experimental-ct-react';
 import { AppContextProvider } from 'contexts/AppContext';
 import { ThemeContextProvider } from 'contexts/ThemeContext';
+import { JSX } from 'react';
 
 type Mount = <HooksConfig>(component: JSX.Element, options?: MountOptions<HooksConfig>) => Promise<MountResult>;
 
