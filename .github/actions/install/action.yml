@@ -13,7 +13,7 @@ runs:
     - name: Store playwright version
       shell: bash
       run: |
-        PLAYWRIGHT_VERSION=$(YARN_ENABLE_COLORS=false yarn info @playwright/test | grep @playwright | sed 's/.*://')
+        PLAYWRIGHT_VERSION=$(npm ls @playwright/test --json | jq --raw-output '.dependencies["@playwright/test"].version')
         echo "Playwright's Version: $PLAYWRIGHT_VERSION"
         echo "PLAYWRIGHT_VERSION=$PLAYWRIGHT_VERSION" >> $GITHUB_ENV
     - name: Cache playwright browsers
