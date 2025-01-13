@@ -24,4 +24,7 @@ runs:
     - name: Setup playwright browsers
       shell: bash
       if: steps.cache-playwright-browsers.outputs.cache-hit != 'true'
-      run: yarn playwright install --with-deps
+      run: yarn playwright install chromium firefox --with-deps
+    - name: Always install playwright webkit
+      shell: bash
+      run: yarn playwright install webkit --with-deps
