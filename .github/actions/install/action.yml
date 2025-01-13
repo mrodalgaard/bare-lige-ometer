@@ -1,5 +1,5 @@
 name: Install
-description: Install and cache playwright
+description: Yarn install and cache playwright
 
 runs:
   using: composite
@@ -7,14 +7,13 @@ runs:
     - uses: actions/setup-node@v4
       with:
         node-version: "20.x"
-        cache: "yarn"
+        # cache: "yarn"
     - shell: bash
       run: yarn install --frozen-lockfile
     - name: Store playwright version
       shell: bash
       run: |
         PLAYWRIGHT_VERSION=$(npm ls @playwright/test --json | jq --raw-output '.dependencies["@playwright/test"].version')
-        echo "Playwright's Version: $PLAYWRIGHT_VERSION"
         echo "PLAYWRIGHT_VERSION=$PLAYWRIGHT_VERSION" >> $GITHUB_ENV
     - name: Cache playwright browsers
       id: cache-playwright-browsers
